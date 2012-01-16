@@ -1,0 +1,9 @@
+ <ul>         
+         <li> <a href="{% url facultyarchiveurl  user.get_profile.fullname|slugify %}">  Archives  </a></li>
+         
+         
+         {% if user.is_authenticated %}         
+         <li > <a href="{% url researchnewurl%}">  Publish new Post </a> </li>        
+         {% endif %}
+         
+       </ul>

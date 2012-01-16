@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Departments Add Department
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+  {% load thumbnail %}
+  
+  <div class="grid_3 alpha" >
+	{% include 'institution/account_side_bar.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>  
+  <h2> Degrees </h2>
+  
+  {% if degrees %}
+  <table class="standard"><tr><th align="left">Title</th><th width="150">Established on</th><th width="150">&nbsp;</th></tr>
+        {% for degree  in degrees %}
+        <tr><td>
+           {{degree.name}}
+          </td><td> 
+           {% if degree.established %}
+                {{degree.established}}
+           {% endif %}
+          </td><td align="center"> 
+         <a href="{% url editdegreeurl  degree.id %}">Edit</a>&nbsp;/&nbsp;
+         <a href="{% url deletedegreeurl degree.id %}">Delete</a> 
+          </td>
+          </tr> 
+         
+        {% endfor %}
+        </table>
+   {% else %}
+         As of  now you have not configured the Degrees. Start configuring now!  
+   
+   {% endif %}
+   
+   <br/> <br/>
+   <div class="action_button"><a href="{% url adddegreeurl %}">Add Degree</a></div>
+        </div>
+        </div>
+</div>
+  
+{% endblock %}
+
+ 
+
+
+
+

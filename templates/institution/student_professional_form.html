@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block amedia %}
+
+ <script type="text/javascript" src="{{ MEDIA_URL }}scripts/newmember.js"></script>
+ 
+ 
+ <script type="text/javascript" charset="utf-8">
+ 
+   var industrymap =[ 
+    {% for industry in industries %}
+          [{{industry.id}}                   
+             {% for market in industry.market_set.all %}
+                      ,{{market.id}},"{{market.name}}" 
+             {% endfor %}
+          ],  
+    {% endfor %}
+    ];
+   
+   
+    window.onload = function() {    
+        
+        $("#id_industry").change(selectedIndustry);
+        }
+   
+   function selectedIndustry()
+   {
+    
+    
+     selectedindex =  $("#id_industry").val();
+     
+     $.each(industrymap,function() {
+     
+    
+     if ( this[0] == selectedindex )
+     {         
+          $('#id_market').find('option').remove();
+         marketlength = this.length -1;
+         index = 1;
+        
+         while ( index <= marketlength)
+         {
+           value = this[index];
+           text = this[index+1];
+           index = index +2;          
+           $("#id_market").append($('<option></option>').val(value).html(text));                                  
+         }                 
+     }    
+    
+   })
+           
+           
+   }
+   
+  
+  
+ </script>  
+
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="grid_3 alpha" >
+	{% if editmode  %}
+  {% include 'institution/account_side_bar.html' %}
+  
+  {% endif %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>  
+     
+<h2> Professional Details </h2>
+<h4> We will connect you to  other professionals who are there in your value chain</h4>
+<br/>
+
+  <div class="errorbox">
+    {% include 'message_frag.html' %}    
+  </div>
+  
+  <form
+        
+        {% if editmode %}
+        action="{% url newprofessionalformurl %}?edit=1"
+        {% else %}
+            action="{% url newprofessionalformurl %}"
+        {% endif %}
+        
+        
+        
+        method="POST">
+
+  <table width="80%">
+  <tr><th align="left"></th><th align="left"></th></tr>
+  
+   <tr><th><label for="id_whatiamdoing">I'm currently:</label></th><td>
+   <span class="errors"> {{form.whatiamdoing.errors}}</span>
+    {{form.whatiamdoing}}   
+   </td></tr>
+  
+        <tbody id="companybody">
+     <tr><th><label for="id_company">Company:</label></th><td>
+         <span class="errors">{{form.company.errors}}</span>
+         {{form.company}}   
+     
+     </td></tr>
+     </tbody>
+   
+   
+   
+            <tbody id="titlebody">
+         
+         <tr><th><label for="id_title">Title:</label></th><td>
+         <span class="errors">   {{form.title.errors}}</span>
+            {{form.title}}      
+         </td></tr>
+         </tbody>
+           
+            <tbody id="industrybody">
+         
+         <tr><th><label for="id_industry">Industry:</label></th><td>
+           <span class="errors"> {{form.industry.errors}}</span>
+            {{form.industry}}      
+         
+         
+         
+         </td></tr>
+         
+         </tbody>
+  
+            <tbody id="marketbody">
+         
+         <tr><th><label for="id_market">Market:</label></th><td>
+           <span class="errors"> {{form.market.errors}}</span>
+            <p class="market">{{form.market}} </p>     
+         </td></tr>
+         
+         </tbody>
+            
+            
+             <tr><th><label> Personal WebSite:</label></th><td>
+           <span class="errors"> {{form.website.errors}}</span>
+            {{form.website}}      
+         </td></tr>
+<tr> <td></td><td>{% if editmode  %}
+   
+   <input type="submit" class="flite_button" value="Submit"/>
+   
+   {% else %}
+
+    <input type="submit" class="flite_button" value="Submit"/>
+    
+     <a href="/">Skip for now</a>
+  
+  {% endif %}
+    </td>
+    </table>
+  </tr>
+  
+  
+
+  
+  </form>
+  
+  </div>
+  </div>
+{% endblock %}
+
+ 
+
+
+
+

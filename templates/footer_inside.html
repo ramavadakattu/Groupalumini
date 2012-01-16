@@ -1,0 +1,85 @@
+<!--<br class="clearfloat" />
+  <div id="footer"><div id="fot">
+  <a id="alumclub_logo" accesskey="9" title="" href="#">
+<img src="{{ MEDIA_URL }}images/frame/alumclub_logo.png" width="96" height="50" alt="AlumClub" />
+</a>
+
+     </div>
+</div> -->
+<div style="background-color:transparent;">
+<div class="cent-wrap">
+	<div class="container_12" id="footer_inside" >
+		<div class="grid_6 alpha">
+        <p style="padding:15px 0px 15px 15px;">&copy; Atoms 2010. All Rights Reserved</p>
+			<!--<img src="{{ MEDIA_URL }}images/frame/alumclub_logobig_footer.png" width="128" height="71" alt="AlumClub" id="alumogo" style="padding:15px 0 0px 20px;" /> -->
+		</div>
+		
+		<div class="grid_6 omega">
+       
+			<p style="padding:15px 15px 20px 0;float:right">
+             <a href="{% url homeurl %}" >Home</a> / <a href="{% url featuresurl %}" >Features</a> / <a href="{% url abouturl %}" >About</a> / <a href="{% url contacturl %}" >Contact</a> / <a href="javascript:void(0)" onclick="openModelWindow()" >Send Feedback</a>
+            </p>
+		</div>
+        <div class="clear">&nbsp;</div>
+	</div>
+
+	<div class="clear">&nbsp;</div>
+    </div><!--  end cent-wrap-->
+</div>	
+	
+	
+	<div id="flayer1">
+	       
+	       <div id="flayer1_handle"> 
+				<a href="javascript:void(0)" id="fclose" style="float:right">[ x ]</a> 
+            
+		</div> 
+	
+	       <div id="flayer1_content"> 
+	
+				<div class="feedback" id="feedbackbox">
+					<h2 style="color: rgb(170, 170, 170); margin-top: 20px;">Hi there, thanks for using Alumclub.</h2>
+					<p>We would love to hear your feedback about Alumclub and what
+			 you think we can do better.<br/>
+			 Want new features? Something not working for you? We're on it. </p>
+			 
+				<br />
+			
+			<form  id="flayer1_form"   method="post" action="/feedback/">
+			
+				<p>
+				<label>Your name (optional)</label>
+				<br/>
+				<input type="text" style="width: 450px;" value="" size="35" name="name"/>
+				</p>
+				
+				
+					<p>
+					<label>Your email address (optional)</label>
+					<br/>
+					<input type="text" style="width: 450px;" value="" size="35" name="email"/>
+					</p>
+					
+					
+					<p>
+					<label>What can we do better? How can we help?</label>
+					<br/>
+					<textarea style="width: 450px; height: 150px;" cols="35" rows="5" name="body"></textarea>
+					</p>
+					
+					
+		 <input id="feedbackSubmitButton" type="submit" class="form_button" value="Send feedback"/>
+						
+					
+			</form>
+			
+			</div>
+			
+		</div>
+	</div>
+	
+	<div id="blackbox">
+		
+		
+	</div>	
+

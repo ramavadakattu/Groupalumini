@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>    
+    
+    <h2> Events </h2>
+        <div id="posteventbox">                     
+                         <div class="action_button">  <a href="{% url createeventurl %}">Create Event</a>    </div>                 
+                     </div>
+                     <div class="tabborder">
+                     
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url agendaviewurl %}" class="tablink" style="text-decoration:none;">Agenda View</a>   
+        <a href="{% url calendarviewurl %}" class="tablink tabcurrent" >Calendar View </a> 
+        </div>
+       
+       <span class="blue_hl large"> Calendar View </span><br /><br /><br />
+       
+       <table border="0" style=" border:1px #ccc solid; " ><tr align="center" style="background: #f3f3f3; "><td>
+        <a href="{{prevmonth.1}}" style="color:#900">  &lt;&lt; {{prevmonth.0}}  </a> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+			  <a href="{{currentmonth.1}}"  style="color:#900"> {{currentmonth.0}} </a> &nbsp;&nbsp;|&nbsp;&nbsp;
+			  
+			   <a href="{{nextmonth.1}}" style="color:#900"> {{nextmonth.0}} &gt;&gt; </a>
+			    </td></tr>
+       <tr style="background: #fbfbfb"><td>
+       {{calendar}}
+       </td></tr></table>
+     </div>
+</div>
+
+{% endblock %}

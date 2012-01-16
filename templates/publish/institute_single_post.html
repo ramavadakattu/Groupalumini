@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{% block  amedia %}
+
+ 
+ 
+        <script type="text/javascript" src="{{ MEDIA_URL }}scripts/publish/publishcomments.js"></script>
+        
+     
+   
+{% endblock %}
+
+
+
+
+{% block content %}
+
+   
+
+{% load thumbnail %}
+
+  
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+        
+      
+      {% include 'publish/publish_sidebar.html' %}
+      Institute Single Post with comments
+       
+       {% load humanize %}     
+       
+      <h2> {{entry.headline}}  </h2>
+      
+      <i>  posted on {{entry.createddate|naturalday}}  by  <a href="{{entry.user.get_profile.get_absolute_url}}">  {{entry.user.get_profile.fullname}}</a>  <a href="{% url singleposturl entry.id %}">  {{entry.comment_set.all.count}} comments </a> </i>
+      
+      {{entry.content|safe}}
+      
+      
+     
+     <!--  <a href="javascript:void(0)" onclick="unhide('commentbox')">  Post Comment </a> -->
+     <h3> Post Comment </h3>
+     
+      <span id="commentsuccess">   </span>
+    
+      
+     <div id="commentbox" >
+        
+            <form id="commentform"  name="commentform">
+               
+               <table>
+                  <tr>
+                  <td>
+                <textarea  id="id_commentarea" name="commentarea" rows="6" cols="68"></textarea>
+                </td>
+                  </tr>
+                
+                {% if user.is_authenticated %}
+                
+                {% else %}
+                <tr>
+                <td>
+                     <input id="id_username"  value="" name="username" size="20"/>                  
+                  </td>
+                </tr>
+                
+                <tr>                
+                  <td>
+                      <input id="id_webaddress"  value="" name="webaddress" size="20"/>                  
+                  </td>                                
+                </tr>  
+                
+                
+                {% endif %}
+               
+               <tr>
+                  <td>
+               <span id="errormessagespan"> </span>
+               <input type="button" id="sendbutton" onclick="postComment({{entry.id}})"  value="Post Comment" />
+               </td>
+                  </tr>
+               
+             </form>
+                  </table>
+           
+        </div>
+     
+       
+       
+       
+       <div id="entrycomments">
+        
+         {% for comment in entry.comment_set.all %}
+            <div class="ecomment">
+               
+                {{comment.getNText|safe}} --
+                
+                {% if comment.nouser %}
+                  {% if comment.webaddress %}
+                        <a href="{{comment.webaddress}}">  {{comment.username}}  </a>
+                   {% else %}
+                        <a href="#">  {{comment.username}}  </a>
+                   {% endif %}
+                {% else %}
+                <a href="{{comment.user.get_profile.get_absolute_url}}">  {{comment.user.get_profile.fullname}}  </a>
+                {% endif %}
+            </div> 
+          
+          {% endfor %}
+        
+        
+        </div>
+       
+ </div>
+ </div>  
+   
+
+
+{% endblock %}
+
+ 

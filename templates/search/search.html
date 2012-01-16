@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+{% load alumclub_tags %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div> 
+    
+    <h2> Find Alumini </h2>
+    
+    <form method="GET"  action="{% url searchurl %}">
+        Enter Name, Company, etc
+    <br/>
+    <input type="text" size="40" name="query" /> <br/>
+    
+    <input type="submit" class="form_button"  value="Find"/>
+    </form>    
+    <br/>
+
+                  
+                   
+    <h2> Results </h2>
+    {% if hits  %}    
+            <ol class="comments-list">
+            {% for hit,entity in hits %}              
+              
+              {% load thumbnail %}
+              <li>
+					<div class="comments-author"> 
+               <img src="{% thumbnail entity.profile.getImage 50x50 %}" /><br />
+               <a href="{{entity.profile.get_absolute_url}}">    {{hit.name}}  </a> 
+               </div>
+              <div class="comments-text" style="background:#fff; border:0px;border-left:1px solid #DDD;">
+                {% get_short_profile institute entity.profile %}
+              </div>
+              </li>
+            
+            {% endfor %}
+            </ol>
+    {% else %}
+            No more Alumini matching the above criteria!  
+    
+    {% endif %}
+        
+        
+    
+    
+     {% if next_page %}
+         <a href="{% url searchurl2  next_page_no %}?query={{query}}"> Next Page  </a>
+         
+     
+     {% endif %}
+     
+     &nbsp; &nbsp;
+     
+     
+     {% if prev_page %}
+        <a href="{% url searchurl2  prev_page_no %}?query={{query}}">Previous Page </a>
+     
+     {% endif %}
+    
+    
+     
+     
+     </div>
+  </div>   
+    
+
+
+{% endblock %}
+
+ 
+
+
+
+

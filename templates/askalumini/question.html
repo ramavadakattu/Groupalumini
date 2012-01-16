@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{% block  amedia %}
+
+ 
+ <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}wysiwyg/jHtmlArea.css" />
+       <script type="text/javascript" src="{{ MEDIA_URL }}wysiwyg/jHtmlArea.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}scripts/editor.js"></script>
+        
+              <script type="text/javascript" src="{{ MEDIA_URL }}scripts/comments.js"></script>
+              <script type="text/javascript" src="{{ MEDIA_URL }}scripts/voting.js"></script>
+                 <link media="screen" href="{{ MEDIA_URL }}css/askquestion.css" type="text/css" rel="stylesheet"/>
+                 
+              
+
+     
+   
+{% endblock %}
+
+
+
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>   
+     
+    <div id="question{{question.id}}">
+     
+        
+       
+       <div  class="votingbox">
+
+         
+         
+         </div>
+       
+       
+       
+         <div id="askqcontainer1">
+            <div id="askqcontainerqans2">
+            <h2>Discussion </h2>
+                <div id="askqfd" class="highlight large">{{question.subject}} </div>
+                
+                  <div class="grid_8" style="margin-top:25px; background-color: #F4F4F4; border:1px solid #CeCeCe">
+                  	<div class="grid_1 alpha" style="min-height:135px;">
+                    	 <div id="askqupd" style="margin:10px;">     
+       
+                    
+               {% load voting_tags %}
+               {% vote_by_user user on question as vote %}
+               
+               
+               
+         {% if vote %}
+         <br />
+           {% score_for_object question as score %}                  
+               <span id="qscore{{question.id}}" style="font-size:26px; padding-bottom:20px">&nbsp;&nbsp;&nbsp;&nbsp;   {{score.score}}   </span> <br />
+     
+            {% ifequal vote.vote   1 %}         
+            
+             <span id="qupvote{{question.id}}">      <a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'clear','up')">  <img src="{{ MEDIA_URL }}images/vote-arrow-up-on.png" alt="vote up" />    </a> </span>   <br />vote<br />
+          <span id="qdownvote{{question.id}}">  <a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'down','down')">   <img src="{{ MEDIA_URL }}images/vote-arrow-down.png" alt="vote down" />  </a>   </span>         
+            {% endifequal %}
+         
+            {% ifequal vote.vote   -1 %}
+            <span id="qupvote{{question.id}}">       <a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'up','up')">  <img src="{{ MEDIA_URL }}images/vote-arrow-up.png" alt="vote up" />    </a>  </span>   <br />vote<br />
+            <span id="qdownvote{{question.id}}">    <a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'clear','down')">   <img src="{{ MEDIA_URL }}images/vote-arrow-down-on.png" alt="vote down" />  </a>                     </span> 
+            {% endifequal %}
+            
+            {% ifequal vote.vote   0 %}
+            <span id="qupvote{{question.id}}">     <a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'up','up')">  <img src="{{ MEDIA_URL }}images/vote-arrow-up.png" alt="vote up" />    </a> </span><br />vote<br />
+            <span id="qdownvote{{question.id}}">         <a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'down','down')">   <img src="{{ MEDIA_URL }}images/vote-arrow-down.png" alt="vote down" />  </a> </span>                   
+            {% endifequal %}
+            
+           
+         
+         {% else %}
+	 <span id="qscore{{question.id}}" style="font-size:26px; padding-bottom:20px">&nbsp;&nbsp;&nbsp;&nbsp;   0   </span> <br />
+       <span id="qupvote{{question.id}}">     <a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'up','up')">  <img src="{{ MEDIA_URL }}images/vote-arrow-up.png" alt="vote up" />    </a> </span><br />vote<br />
+        <span id="qdownvote{{question.id}}">         <a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'down','down')">   <img src="{{ MEDIA_URL }}images/vote-arrow-down.png" alt="vote down" />  </a> </span>
+         
+         {% endif %}
+         
+           
+              
+                
+          
+               </div>
+					</div> 
+                    <div class="grid_5">
+                    <p style="padding:10px 0 10px 0;">
+                    {{question.description|safe}}
+                    <hr />
+                    Tags :
+ 
+                       {% for tag in question.tags %}
+                            <span class="tags">  {{tag.name}}   </span>         
+                       {% endfor %}
+					</p><br /><br />
+                    </div>
+                    <div class="grid_2 omega">
+                    <p style="padding:10px">
+                    	 <a href="{{question.user.get_profile.get_absolute_url}}" class="noul"> <img src="{% thumbnail  question.user.get_profile.getImage  64x63 %}" /></a> <br />
+                          <span class="blue_hl"><a href="{{question.user.get_profile.get_absolute_url}}" class="noul">  {{question.user.get_profile.fullname }}</a></span><br />
+                          <span class="small"> {{question.createddate|timesince}} ago</span>
+                          </p>
+                          {% ifequal question.user.id user.id %}
+            
+           <a href="{% url editquestionurl question.id %}" >Edit</a>&nbsp;/
+           
+           <a href="{% url deletequestionurl question.id %}" >Delete</a>
+           &nbsp; &nbsp;
+           
+           {% endifequal %}
+					</div>
+                  </div>
+	<div class="clear">&nbsp;</div>
+                 
+                  
+            </div>
+           
+            
+            <br/>
+            
+         </div><br />
+
+         <ol class="comments-list">
+          {% for comment in question.comments.all %}
+          <li >
+          	<div class="comments-author"><a href="{{comment.user.get_profile.get_absolute_url}}" class="noul">
+            <p class="comments-author-icon">
+            <img src="{% thumbnail  comment.user.get_profile.getImage  64x63 %}" />
+            </p>
+              <p class="comments-author-name"> 
+               {{comment.user.get_profile.fullname}}  
+               </p></a>
+             </div> 
+             <div class="comments-text">
+         		{{comment.getNText|safe}}  
+             </div>
+              <hr class="comments-clear"/>
+           </li> 
+          {% endfor %}
+          </ol>
+           <a class="lite_button" onclick="unhide('qcomment{{question.id}}')" href="javascript:void(0)"> Post Comment </a>&nbsp;&nbsp;
+            <br /><br />
+            <div id="qcomment{{question.id}}" class="hide">
+               <textarea cols="48"   rows="3"  name="qtextarea{{question.id}}"> </textarea><br />
+               <input type="button" id="qcommentbutton{{question.id}}" class="flite_button"  onclick="postcomment('question{{question.id}}',{{question.id}},'qcomment{{question.id}}','qcommentbutton{{question.id}}','qtextarea{{question.id}}')"  value="Submit"/>
+        </div>
+            
+            
+         
+     </div>
+    <hr />
+    
+    <ul> 
+    {% for answer in answers_list %}
+    <li>
+        <div id="answer{{answer.id}}">
+       
+          
+           
+        	<div class="grid_8" style="margin-top:25px; background-color: #f5fcfc; border:1px solid #bde1c1">
+               <div class="grid_1 alpha" style="min-height:135px;">   
+                    
+                    	<div  class="votingbox" style="padding:10px">
+             
+               {% load voting_tags %}
+               {% vote_by_user user on answer as vote %}
+               
+               {% score_for_object answer as score %}                  
+                <span id="ascore{{answer.id}}" style="font-size:28px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {{score.score}}   </span> <br />
+ <br />
+               
+               
+         {% if vote %}
+         
+               
+            {% ifequal vote.vote   1 %}         
+            
+             <span id="aupvote{{answer.id}}">      <a href="javascript:void(0)"  onclick="putVote('Answer',{{answer.id}},'clear','up')">  <img src="{{ MEDIA_URL }}images/vote-arrow-up-on.png" alt="vote up" />    </a> </span>  <br />Vote<br />
+          <span id="adownvote{{answer.id}}">  <a href="javascript:void(0)"  onclick="putVote('Answer',{{answer.id}},'down','down')">   <img src="{{ MEDIA_URL }}images/vote-arrow-down.png" alt="vote down" />  </a>   </span>         
+            {% endifequal %}
+         
+            {% ifequal vote.vote   -1 %}
+            <span id="aupvote{{answer.id}}">       <a href="javascript:void(0)"  onclick="putVote('Answer',{{answer.id}},'up','up')">  <img src="{{ MEDIA_URL }}images/vote-arrow-up.png" alt="vote up" />    </a>  </span>  <br />Vote<br />
+            <span id="adownvote{{answer.id}}">    <a href="javascript:void(0)"  onclick="putVote('Answer',{{answer.id}},'clear','down')">   <img src="{{ MEDIA_URL }}images/vote-arrow-down-on.png" alt="vote down" />  </a>                     </span> 
+            {% endifequal %}
+            
+            {% ifequal vote.vote   0 %}
+            <span id="aupvote{{answer.id}}">     <a href="javascript:void(0)"  onclick="putVote('Answer',{{answer.id}},'up','up')">  <img src="{{ MEDIA_URL }}images/vote-arrow-up.png" alt="vote up" />    </a> </span> <br />Vote<br />
+            <span id="adownvote{{answer.id}}">         <a href="javascript:void(0)"  onclick="putVote('Answer',{{answer.id}},'down','down')">   <img src="{{ MEDIA_URL }}images/vote-arrow-down.png" alt="vote down" />  </a> </span>                   
+            {% endifequal %}
+            
+            
+         
+         {% else %}         
+       <span id="aupvote{{answer.id}}">     <a href="javascript:void(0)"  onclick="putVote('Answer',{{answer.id}},'up','up')">  <img src="{{ MEDIA_URL }}images/vote-arrow-up.png" alt="vote up" />    </a> </span> <br />Vote<br />
+        <span id="adownvote{{answer.id}}">         <a href="javascript:void(0)"  onclick="putVote('Answer',{{answer.id}},'down','down')">   <img src="{{ MEDIA_URL }}images/vote-arrow-down.png" alt="vote down" />  </a> </span>
+         
+         {% endif %}
+         
+           
+              
+           
+         
+         </div>
+                    
+                    
+                </div>   
+       
+        	<div class="grid_5">
+        	<p style="padding:10px">
+                  {{answer.text|safe}}
+         	</p>
+        	</div>
+        	<div class="grid_2 omega">
+                    <p style="padding:10px">
+                    <a href="{{answer.user.get_profile.get_absolute_url}}" class="noul">
+                    	  <img src="{% thumbnail  answer.user.get_profile.getImage  64x63 %}" /> <br />
+                          <span class="blue_hl">  {{answer.user.get_profile.fullname }}</span></a><br />
+                          <span class="small"> {{answer.createddate|timesince}} ago</span>
+                          </p>
+			</div>
+        </div>
+       <div class="clear">&nbsp;</div>
+             
+        
+          
+          
+        <ol class="comments-list">
+          {% for comment in answer.comments.all %}
+          <li >
+          	<div class="comments-author">
+            <p class="comments-author-icon"><a href="{{comment.user.get_profile.get_absolute_url}}" class="noul">
+            <img src="{% thumbnail  comment.user.get_profile.getImage  64x63 %}" />
+            </p>
+              <p class="comments-author-name"> 
+               {{comment.user.get_profile.fullname}}  
+               </p></a>
+             </div> 
+             <div class="comments-text">
+         		{{comment.getNText|safe}}  
+             </div>
+              <hr class="comments-clear" />
+           </li> 
+          {% endfor %}
+          </ol>
+          
+        </div>
+        
+        <br /><br />
+          <div ><a class="lite_button" onclick="unhide('comment{{answer.id}}')" href="javascript:void(0)"> Post Comment </a></div>
+            <br /><br />
+            
+        
+         <div id="comment{{answer.id}}" class="hide">
+               <textarea cols="68"   rows="3"   name="textarea{{answer.id}}"> </textarea><br />
+               <input type="button" class="flite_button" id="commentbutton{{answer.id}}"  onclick="postcomment('answer{{answer.id}}',{{answer.id}},'comment{{answer.id}}','commentbutton{{answer.id}}','textarea{{answer.id}}')"  value="Submit"/>
+        </div> 
+        
+        
+        
+     </li>   
+    {% endfor %}
+    </ul>
+    
+    <div class="pagenation">
+          {% if page_obj.has_previous %}
+                   <a href="{% url displayquestionurl question.id %}?page={{page_obj.previous_page_number}}" style="float:left">&laquo; Previous</a>
+         {% endif %}          
+        
+          {% if page_obj.has_next %}
+                  <a href="{% url displayquestionurl question.id %}?page={{page_obj.next_page_number}}" style="float:right"> Next &raquo;</a>
+         {% endif %}
+     </div>            
+     
+    
+    <h4> Post Your Answer </h4>
+    
+    {% if user.is_authenticated %}
+           <div>
+          <form action="." method="POST" id="answerform">
+               
+              <span class="errors">{{form.text.errors}}</span>
+              
+              {{form.text}}
+              <br />
+              <input type="submit" class="form_button" value="Submit"/>  
+     
+           </form>
+        </div>
+           
+         
+            
+               
+     {% else %}     
+        <div>
+             Login to post your Answer            
+            
+          </div> 
+     
+     {% endif %}
+     
+     </div>
+
+</div>
+{% endblock %}
+
+
+
+
+

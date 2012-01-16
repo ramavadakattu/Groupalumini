@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+   
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+  
+    <h2>Institute Publication Archives </h2>
+    
+{% include 'publish/publish_sidebar.html' %}
+    
+     {% load humanize %}     
+    <table class="standard"><tr><th align="left">Title</th><th width="150">Posted on</th><th width="150"></th></tr>
+    {% for entry in entry_list %}
+    <tr>
+             <td><a href="{% url singleposturl entry.id %}">  {{entry.headline}} </a>  </td>
+             <td>{{entry.createddate|naturalday}}</td>
+             <td>  posted by  <a href="{{entry.user.get_profile.get_absolute_url}}">   {{entry.user.get_profile.fullname}}  </a> </td>
+             
+     </tr>
+    
+    {% endfor %}
+    </table>
+       
+       
+       
+         {% if page_obj.has_previous %}
+                   <a href="{% url archiveurl  %}?page={{page_obj.previous_page_number}}"> Previous Page  </a>
+         {% endif %}          
+        
+        
+          {% if page_obj.has_next %}
+                  <a href="{% url archiveurl %}?page={{page_obj.next_page_number}}"> Next Page </a>
+         {% endif %}
+       
+       
+       
+   </div>
+   </div>  
+
+
+{% endblock %}
+
+ 

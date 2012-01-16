@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{% block  amedia %}
+
+ 
+ 
+        <script type="text/javascript" src="{{ MEDIA_URL }}scripts/profile/shortmessage.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}scripts/connections/connections.js"></script>
+     
+   
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>   
+      {% load thumbnail %}
+      {% load alumclub_tags %}
+      <div class="grid_3 alpha" >
+      
+     <img src="{% thumbnail  entityuser.get_profile.getImage  230x230 %}" />
+     {% if entityuser.get_profile.didHeUploadPhoto  %}
+     
+     
+     {% else %}
+     
+        {% ifequal entityuser.id  user.id %}
+     
+         <a href="{% url changepictureurl %}">  Upload your Photo </a>
+        
+        {% endifequal %} 
+         
+         
+         
+     {% endif %}
+     <br />
+    {% ifequal entityuser.id  user.id %}
+      
+        {% if noindicator %}
+        
+        {% else %}
+        <div id="profileindicator">
+        <img class="bar" height="12" width="40" alt="Percentage Complete" src="{{MEDIA_URL}}images/profile_indicator.png"/>
+        <!-- <img class="bar" height="12" width="{{percentage}}" alt=" {{percentage}}% Complete" src="{{MEDIA_URL}}images/profile_indicator.png"/> -->
+        <br />
+        {{percentage}}% <span class="small">Profile Completed!</span>
+        </div>
+       <!--<a href="{% url editprofileurl %}"> Edit Profile info </a> ##### PLEASE CHECK THE URL ### -->
+               
+        {% endif %}
+            
+     
+      
+      
+      {% endifequal %}
+     </div> <!--end grid -->
+<div class="grid_4 omega" >
+ 
+     
+
+                <br />
+                {% if entityuser.get_profile.isadmin %}
+                         <!-- {{ institute.name }} , <br/> -->
+                             <span class="highlight">   Institute Admin                                   
+                          </span>
+                {% else %}
+                        <a href="{{entityuser.get_profile.get_absolute_url}}">   {{entityuser.get_profile.fullname}}  </a><br/>
+                            {% get_short_profile institute entityuser %}    
+                
+                {% endif %}
+                <br /><br />
+                
+                 {% if entityuser.get_profile.isStudent %}                 
+                  <br/> {{entitydetail.degree.name}} , {{entitydetail.course.name}} ,
+                  <br/> {{entitydetail.department.name}}
+                 
+                 {% else %}
+                       
+                 
+                 {% endif %}
+
+     
+     
+      {% if entityuser.get_profile.isFaculty %}
+          Specialization:
+           <span class="highlight">{{entitydetail.specialization}} </span>
+      
+      {% endif %}
+      
+      
+      
+     
+    Current Location : <br />
+     
+     <span class="highlight"> {{entityuser.get_profile.getAddress|safe}}</span><br />
+     
+     <!-- ONly to the connections this information should be available -->
+     {% if connection %}
+     <br />
+     Personal Information :<br />
+     <span class="highlight">{{entityuser.email}}</span><br /><br />
+         
+     {% endif %}    
+     
+     
+     
+     {% ifnotequal entityuser.id user.id  %}
+     
+     {% if connection %}
+        <span class="blue_hl">You are Friends </span>
+     {% else %}
+     
+     <div id="connectbox">
+    <div  id="action_button"> <a href="javascript:void(0)" onclick="connectto({{entityuser.id}})">Add as Friend</a>  </div>
+</div>
+   {% endif %}
+     <br />
+      
+     <a href="javascript:void(0)" onclick="unhide('messageform')">Send a Short Message</a>
+     {% endifnotequal %}
+    
+  </div> <!--end grid -->
+  <div class="clear">&nbsp;</div>    
+     <br />
+     
+     <div  id="messagebox">
+        
+        <h2> Messages from Alumni </h2>
+        
+       
+        
+        <div id="messageform"  class="hide">        
+            <textarea  id="id_messagearea" name="messagearea" rows="3" cols="68"></textarea>
+            <br/>        
+           <span id="errormessagespan"> </span> <input type="button" id="sendbutton" onclick="postMessage({{entityuser.id}})"  value="Send" />
+            <br/>
+             <span id="totalcharacters"> {{totalcharacters}} </span> characters
+            
+            <br/>
+            <br/>
+            <br/>
+        </div>
+        
+        
+        <div id="usermessages">
+          
+          
+          {% for message in message_list %}
+            <div class="profilemessage">
+                {{message.getNText|safe}} -- <a href="{{message.fromuser.get_profile.get_absolute_url}}">  {{message.fromuser.get_profile.fullname}}  </a>             
+            </div> 
+          
+          {% endfor %}
+          
+          
+          
+          {% if page_obj.has_previous %}
+                   <a href="{% url profileurl2  entityuser.id %}?page={{page_obj.previous_page_number}}"> Previous Page  </a>
+         {% endif %}          
+        
+        
+         
+          {% if page_obj.has_next %}
+                  <a href="{% url profileurl2  entityuser.id %}?page={{page_obj.next_page_number}}"> Next Page </a>
+         {% endif %}
+                 
+        
+        </div>  
+                        
+        
+        
+     </div>   
+</div>
+
+</div>
+{% endblock %}
+
+ 
+
+
+
+

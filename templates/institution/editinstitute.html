@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block content %}
+
+<div id="bodybox">
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" >
+	{% include 'institution/account_side_bar.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+     
+<div id="registrationform">
+    
+    <form action="."  method="POST" enctype="multipart/form-data" id="iregistrationform" class="long" />
+    <h2>
+        Institution Details
+     </h2>
+     {{form.non_field_errors}}
+     <fieldset>
+    <legend>General</legend>
+    Institution Name: <br />
+                 <span class="errors"> {{ form.name.errors }} </span>               
+                {{ form.name }}* <br />
+ Phone Number:  <br />
+            <span class="errors"> {{ form.phoneno.errors }}  </span>
+            
+            {{ form.phoneno }}* <br />
+ Website : <br />
+            <span class="errors">{{ form.website.errors }} </span> 
+            {{ form.website }} <br />
+       
+        Insitiute Logo : <br />
+            <span class="errors">{{ form.logo.errors }}  </span>
+            {{ form.logo }} 
+            <br />
+     Description :<br />
+    <span class="errors"> {{ form.description.errors }}  </span>
+            {{ form.description }} 
+            </fieldset>
+     <fieldset>
+    <legend>Domain</legend>
+     Choose a URL at which you want Alumni Network to be created.
+         <br />
+     <span class="errors"> {{ form.subdomain.errors }}</span>
+                    http:// {{ form.subdomain }}.alumclub.net  <br />
+        </fieldset>    
+     <fieldset>
+    <legend>Admin Details</legend>
+                Name :<br />
+ <span class="errors">{{ form.adminname.errors }} </span>     {{ form.adminname }}* 
+     
+                  <br />
+ Admin / Insitute Email : <br />
+<span class="errors">{{ form.adminemail.errors }} </span>     {{ form.adminemail }}*
+                   
+                    <span class="small">(We will be communicating via this email)</span>
+              </fieldset>
+      <input type="submit" value="Update"  class="form_button" style="width:150px;"  />
+     </form>
+</div>    
+   
+     </div>
+     </div>
+    </div>
+</div> 
+
+{% endblock %}
+
+ 
+
+
+
+

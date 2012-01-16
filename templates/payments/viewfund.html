@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+   
+
+{% load thumbnail %}
+
+    {% load humanize %} 
+            
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+     
+     
+      <h2> Fund Details </h2>
+      
+      <table class="single" width="300">
+        <tr>
+            <td width="40%"> Name :  </td>
+            <td>{{fund.fundname}}</td>
+        </tr>
+        <tr>
+            <td > Total Amount :  </td>
+            <td>{{fund.totalamount}} USD</td>
+        </tr>
+        <tr>
+            <td> Deadline :  </td>
+            <td>{{fund.deadline|naturalday}}</td>
+        </tr>
+        <tr>
+            <td> Description :  </td>
+            <td>{{fund.description|linebreaksbr|urlize}}</td>
+        </tr>
+      </table>
+    
+    {% ifequal  fund.getFundStatus  'open' %}
+    
+            <a href="{% url enteramounturl fund.id %}" class="large_link"> Donate Now! </a>
+      
+    {% endifequal %}  
+     
+     
+     
+     {% ifequal fund.user.id user.id %}
+     <h3> Operations </h3>
+          <span class="small">  <a href="{% url editfundurl fund.id %}"> edit </a> , <a href="{% url deletefundurl fund.id %}">   delete </a>   </span>
+          {% endifequal %}
+          
+          
+         
+           
+    
+    <h3> Total number of Donations : {{fund.getTotalPeople}}</h3>
+      
+    
+    
+    <h2> Details of each donation </h2>
+    
+    <table class="standard">
+        <tr>
+            <th width="50%"> Name  </th>
+            <th width="15%"> Amount </th>
+            <th width="15%"> Transaction ID </th>
+            <th width="20%"> Date </th>
+        </tr>    
+            
+            
+            
+            </tr>
+    {% for donation in fund.donation_set.all %}
+    
+    <tr>
+        <td>
+            <a href="{{donation.user.get_profile.get_absolute_url}}">
+                
+                 <img src="{% thumbnail  donation.user.get_profile.getImage  40x40 %}" />
+                 {{donation.user.get_profile.fullname}}   </a>
+        </td>
+        <td>
+            
+            {{donation.donationamount}}
+        </td>
+        <td>
+      
+                {{donation.paypaltransactionid}}
+        </td>
+          <td>
+              {{donation.createddate|naturalday}}
+            
+         </td>
+     </tr>
+    
+    {% endfor %}
+    </table>
+    
+</div> 
+    
+   </div>
+
+{% endblock %}
+
+   

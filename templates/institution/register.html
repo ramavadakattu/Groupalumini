@@ -1,0 +1,106 @@
+{% extends "home.html" %}
+
+{% block title %}
+
+Alumclub will you help to maintain the Alumni effectively
+
+
+{% endblock %}
+
+{% block content %}
+
+      <div style="padding:30px 40px 0 40px;">
+  <div class="errorbox">
+    {% include 'message_frag.html' %}    
+  </div>
+
+<div id="registrationform">
+    
+    <form action="."  method="POST" enctype="multipart/form-data" id="iregistrationform" class="long" />
+    <h2>
+        Institution Details
+     </h2>
+     <span class="error">{{form.non_field_errors}}</span> 
+     
+       <fieldset>
+    <legend>General</legend> 
+               Institution Name: *  <br />
+ 
+               
+               
+                 <span class="error"> {{ form.name.errors }}</span>                 
+                {{ form.name }}   
+                
+        <br />
+             PhoneNumber: *    <br />
+ 
+            
+            <span class="error"> {{ form.phoneno.errors }}  </span> 
+            
+            {{ form.phoneno }}   
+        
+        <br />
+              Website :   <br />
+            
+            
+           <span class="error"> {{ form.website.errors }}  </span> 
+            {{ form.website }}   
+        
+       <br />
+         
+              Insitiute Logo :   <br />
+            
+            
+           <span class="error"> {{ form.logo.errors }} </span>  
+            {{ form.logo }}   
+        
+        <br />
+          
+              Description :   <br />
+            
+            
+           <span class="error"> {{ form.description.errors }} </span>  
+            {{ form.description }}   
+        </fieldset>
+   
+      <fieldset>
+    <legend>Domain</legend>
+     Choose URL at which you want your Alumni Network to be created.<br />
+     <span class="error"> {{ form.subdomain.errors }}</span> 
+                    http:// {{ form.subdomain }}.alumclub.net    
+              
+     </fieldset>  
+  
+   <fieldset>
+    <legend>Admin Details</legend>
+              Name *:   <br />
+                    <span class="error"> {{ form.adminname.errors }}</span>       {{ form.adminname }} 
+                    <br />
+                    Admin/Insitute Email* :  <br /> 
+                    <span class="error"> {{ form.adminemail.errors }}</span>       {{ form.adminemail }}
+                   &nbsp;&nbsp;
+                    <span class="small">(We will be communicating via this email)</span>
+                  
+                        
+              <br />
+               
+                            Admin Password *:   <br />
+ 
+                      <span class="error">{{ form.password1.errors }}</span>  {{ form.password1 }}   
+               <br />
+                
+                       Retype Admin Password *:   <br />
+ 
+                      <span class="error"> {{ form.password2.errors }}</span> {{ form.password2 }}   
+    
+     </fieldset><br />
+      <input type="submit" value="Submit" class="form_button"  />
+     </form>
+</div>    
+
+</div>
+{% endblock %}
+
+
+
+

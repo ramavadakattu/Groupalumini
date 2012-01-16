@@ -1,0 +1,31 @@
+<div id="sidebar">
+
+{% if user.get_profile.isadmin  %} 
+    
+    
+<ul class="adminmenu">
+   <li> <a href="{% url editinstituteurl %}">Manage Institute</a> </li>
+   <li> <a href="{% url changepasswordurl %}">Change Password</a> </li>
+   <li> <a href="{% url changepictureurl %}">Change Insitute Logo</a> </li>
+   <li> <a href="{% url showdepartmenturl %}">Manage Departments</a> </li>
+   <li> <a href="{% url showcoursesurl %}">Manage Courses</a> </li>
+   <li> <a href="{% url showdegreeurl %}">Mangage Degrees</a> </li>
+   <li> <a href="{% url approvememberurl %}">Approve New Members</a> </li>
+</ul>
+    
+    
+{% else %}
+
+<ul class="adminmenu">
+    <li> <a href="{% url editprofileurl %}">Edit Profile</a> </li>
+    <li> <a href="{% url changepasswordurl %}">Change Password</a> </li>
+    <li> <a href="{% url changepictureurl %}">Change Photo</a> </li>
+    <li> <a href="{% url changelocationurl %}">Change Location</a> </li>
+    <li> <a href="{% url  newprofessionalformurl %}?edit=1">Change Professional Details</a> </li>
+</ul>
+    
+{% endif %}  
+ </div>     
+        
+    
+    

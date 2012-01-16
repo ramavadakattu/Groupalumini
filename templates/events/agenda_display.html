@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>   
+       
+        <h2> Events </h2>
+        <div id="posteventbox">                     
+                         <div class="action_button">  <a href="{% url createeventurl %}">Create Event</a>    </div>                 
+                     </div>
+                     <div class="tabborder">
+                     
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url agendaviewurl %}" class="tablink tabcurrent" >Agenda View</a>   
+        <a href="{% url calendarviewurl %}" class="tablink" >Calendar View </a> 
+        </div>
+       
+       
+       
+       {% load humanize %}
+		
+       
+        <span class="blue_hl large"> Agenda View </span>
+       <br /><br />
+       <ul>
+   
+       {% for event in event_list %}
+       <li class="starlist">  <a href="{% url vieweventurl event.id %}">{{event.what}}</a> | {{event.when|naturalday}} at {{event.starttime|time:"h:i a"}} for {{event.duration}} {{event.durationtag}} in {{event.where}} 
+       
+       
+        posted by  <a href="{{event.user.get_profile.get_absolute_url}}" class="blue_hl">
+                    
+                    
+                    {{event.user.get_profile.fullname}} </a>
+      
+       </li>
+      
+        {% endfor %} 
+       </ul>
+       <div class="pagenation">
+
+        {% if page_obj.has_previous %}
+                   <a href="{% url agendaviewurl %}?page={{page_obj.previous_page_number}}" style="float:left">&laquo; Previous</a>
+         {% endif %}          
+        
+          {% if page_obj.has_next %}
+                  <a href="{% url agendaviewurl %}?page={{page_obj.next_page_number}}" style="float:right">Next &raquo;</a>
+         {% endif %}
+           </div>      
+       </div>
+</div>
+{% endblock %}

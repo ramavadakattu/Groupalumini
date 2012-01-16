@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni network
+
+
+{% endblock %}
+
+{% block amedia %}
+ <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}scripts/autocomplete/jquery.autocomplete.css"> 
+  <!--  <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}scripts/autocomplete/thickbox.css">  -->
+   
+     
+           <script type="text/javascript" src="{{ MEDIA_URL }}scripts/autocomplete/jquery.bgiframe.min.js"></script>
+ <script type="text/javascript" src="{{ MEDIA_URL }}scripts/autocomplete/jquery.ajaxQueue.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}scripts/autocomplete/thickbox-compressed.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}scripts/autocomplete/jquery.autocomplete.js"></script>
+
+
+
+<script src="http://www.google.com/jsapi?key={{ map_api_key }}" type="text/javascript"> </script>
+
+<script type="text/javascript" charset="utf-8">
+  google.load('maps', '2.x',{"other_params":"sensor=true"});
+  
+ 
+  
+</script>
+
+
+<!--
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key={{map_api_key}}" type="text/javascript"></script>
+-->
+
+
+ <script type="text/javascript" src="{{ MEDIA_URL }}scripts/newmember.js"></script>
+ 
+ 
+ <script type="text/javascript" charset="utf-8">
+ 
+   window.onload = function() {     
+      
+        url = "/institution/statelookup"
+        $("#state2").autocomplete(url,{dataType:'json',                                  
+                                  parse: function(data) {
+          var rows = new Array();
+          for(var i=0; i<data.length; i++){              
+              rows[i] = { data:data[i], value:data[i], result:data[i] };
+          }
+          return rows;
+      },
+       formatItem: function(data, i,max,value,term) {
+          return value;
+      },    
+      })
+        
+       
+     
+   }
+   
+ </script>
+
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<div id="bodybox">
+<div style="padding:30px 40px 0 40px;">
+
+<h2> Where do you stay? </h2>
+<h4> We will tell you other alumini who are staying nearby your location </h4>
+<br/>
+<br/>
+<br/>
+
+   
+  
+  <div class="errorbox">
+    {% include 'message_frag.html' %}    
+  </div>
+  
+   
+  <div class="mapwrapper">
+
+
+<h3> Double click on the location at which you are living </h3>
+
+<div id="gmap1"  class="gmap">
+ 
+ 
+ 
+ 
+</div>
+
+</div>
+  
+  
+  
+  
+  
+  
+  {% load thumbnail %}
+  
+  <div id="changelocationbox">
+
+ 
+    
+    
+
+<input type="radio" name="locationflag" style="width:20px"  value="manually"  checked/> I want to manually enter my location details<br />
+<input type="radio" name="locationflag" style="width:20px" value="map"/> I will choose my location by means of Geographical map
+<br /><br />
+  
+
+    <form name="locationform" action="."  method="POST">
+ <table id="locationtable2">
+ <tr><th width="300"></th><td width="300"></td></tr>   
+   
+    <tr><td>Country : </td><td>
+    
+    <span class="errors">{{form.country.errors}}</span>
+    {{form.country}}
+    
+    
+    </td></tr>
+    <tr><td>State : </td><td>
+    
+   <span class="errors"> {{form.state.errors}}</span>
+    {{form.state}}
+    
+    
+    </td></tr>
+    
+    <tr><td>City : </td><td>
+    
+    <span class="errors">{{form.city.errors}}</span>
+    {{form.city}}
+    
+    
+    </td></tr>
+    
+    <tr><td>Address : </td><td>
+    
+   <span class="errors"> {{form.address.errors}}</span>
+    {{form.address}}
+    
+    
+    </td>
+    
+    <tr><td>
+    
+{{form.latitude}}
+{{form.longitude}}
+   </td>
+    
+    </tr>
+  <tr><td>
+   <a href="/" > Skip for now </a> </td><td>
+  <input type="submit" class="button" value="Next >>"/></td>
+  </tr>
+</table>
+
+  
+ </div>
+
+</form>
+  
+  </div>
+  </div>
+  
+  
+{% endblock %}
+
+ 
+
+
+
+

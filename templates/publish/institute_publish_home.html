@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block amedia %}
+ <link rel="alternate" type="application/rss+xml" title="{{institute.name}} blog feed"  href="{{ institute.getInstituteFeedUrl  }}">
+
+
+
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+   
+
+{% load thumbnail %}
+
+ <div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+       
+        {% load humanize %}      
+      <h2>Publish</h2>
+      
+     {% include 'publish/publish_sidebar.html' %}
+          <br />
+          
+          <ul>
+          {% for entry in entry_list %}
+            <li class="starlist"> 
+             <a href="{% url singleposturl entry.id %}" >{{entry.headline}}</a> &nbsp;<span class="small">
+          posted {{entry.createddate|naturalday}}  by <a href="{{entry.user.get_profile.get_absolute_url}}">{{entry.user.get_profile.fullname}}</a> &nbsp;| 
+          &nbsp;<a href="{% url singleposturl entry.id %}">{{entry.comment_set.all.count}} comments </a> </span>
+             
+             
+             {{entry.content|safe}}
+          </li>
+          
+          {% endfor %}
+         </ul>
+          
+          
+           {% if page_obj.has_previous %}
+                   <a href="{% url newsletterurl %}?page={{page_obj.previous_page_number}}"> Previous Page  </a>
+         {% endif %}          
+        
+        
+         
+          {% if page_obj.has_next %}
+                  <a href="{% url newsletterurl %}?page={{page_obj.next_page_number}}"> Next Page </a>
+         {% endif %}
+                 
+         
+          
+     </div>
+     </div>     
+
+{% endblock %}
+
+ 

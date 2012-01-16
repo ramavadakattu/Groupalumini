@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{%  block amedia %}
+
+   <script type="text/javascript" src="{{MEDIA_URL}}js/ckeditor/ckeditor.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}scripts/publish/publishcomments.js"></script>
+
+ {% include 'autocompletescripts.html' %}
+
+<script type="text/javascript">
+	window.onload = function()
+	{
+		CKEDITOR.replace( 'content' );
+                
+               url = "/interesting/taglookup"
+               $("#id_tags").autocomplete(url,{dataType:'json',                                  
+                                         parse: function(data) {
+                 var rows = new Array();
+                 for(var i=0; i<data.length; i++){              
+                     rows[i] = { data:data[i], value:data[i], result:data[i] };
+                 }
+                 return rows;
+             },
+              formatItem: function(data, i,max,value,term) {
+                 return value;
+             },
+              multiple: true,
+              multipleSeparator: " ", 
+             })
+	};
+</script>
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+   
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+            
+      
+  Faculty create new 
+      Institute create new publication
+       
+        <form action="."  method="POST"  name='entryform'>
+            <table>
+               <tr>
+                  
+                  <td>
+                     Title : <br/>
+                     
+                     <span class="error">{{form.headline.errors}}</span>
+                       {{form.headline}}
+                     
+                     </td>
+                 </tr>
+               <tr>
+                  
+                  
+                  <td>
+                     Text: <br/>
+                     <span class="error">{{form.content.errors}}</span>
+                     {{form.content}}                 
+                  
+                  </td>
+               </tr>
+                  
+                   <tr>
+                  
+                  
+                  <td>
+                     Tags: <br/>
+                     <span class="error">{{form.tags.errors}}</span>
+                     {{form.tags}}                     
+                  
+                  </td>
+               </tr>
+                  
+                  <tr>
+                      <td>
+                        {% if editmode %}
+                        
+                        {% else %}
+                                 Send email to : <span class="errors">{{form.sendemail.errors}}</span>
+                                 {{form.sendemail}}  <a href="{% url displaymailgroupurl %}">  Create new mail group to send this to a targeted group. </a>
+                        {% endif %}
+                        </td>                    
+                     
+                     </tr>
+                  <tr>
+                     <td>
+                        <input type="hidden" name="whichbutton"  value="save" />
+                        <input type="hidden"  name="backto"  value="{{backto}}" />
+                         <input type="submit"  onSubmit="specifyWhichButton()"   value=
+                                {% if editmode %}                                
+                                "Update"
+                                {% else %}
+                                "Submit"
+                                {% endif %}  />
+                     </td>
+                  </tr>
+            
+            </table>
+          </form>
+            
+       
+       
+     </div>
+     </div>
+
+
+{% endblock %}
+
+ 

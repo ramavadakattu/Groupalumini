@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block content %}
+
+{% load thumbnail %}
+
+<div>
+    
+  <div id="institutelogo">
+    <img src="{% thumbnail institute.admin.get_profile.photo 300x300 %}" />
+     <h2>  {{institute.name}} Alumni Network </h2>    
+  </div>  
+  
+  <div id="instintroduction">
+      {{institute.description}}    
+  </div>
+  
+  
+  
+  <div class="errorbox">
+    {% include 'message_frag.html' %}    
+  </div>
+  
+  
+    
+    
+</div>    
+    
+    
+ 
+
+{% endblock %}
+
+ 
+
+
+
+

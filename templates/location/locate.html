@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{% block  amedia %}
+
+ <script type="text/javascript" src="{{ MEDIA_URL }}scripts/location/location.js"></script> 
+
+
+<script src="http://www.google.com/jsapi?key={{ map_api_key }}" type="text/javascript"> </script>
+
+<script type="text/javascript" charset="utf-8">
+  google.load('maps', '2.x',{"other_params":"sensor=true"});
+  
+ 
+  
+</script>
+
+
+
+ 
+     <script type="text/javascript">
+     
+     
+    
+
+{% load thumbnail %}
+var people = [
+     // latitude, longitude, name     
+    {% for person,detail in peoplezip %}    
+        [{{ person.latitude }}, {{ person.longitude }},"{{person.fullname|escapejs}}","{{detail.getSimpleProfile}}","{{detail.getBatch}}", {% if person.isFaculty %} "faculty" {% else %} "student" {% endif %} ,"{% thumbnail  person.getImage  40x40 %}","{{person.address}}","{{person.get_absolute_url}}"]{% if not forloop.last %},{% endif %}
+    {% endfor %}
+];
+
+
+var  zlocation = null;
+
+{% if address %}
+       zlocation = "{{address}}";
+     
+{% endif %}
+
+    
+     
+
+    window.onload = function() {
+    window.gmap = new google.maps.Map2(document.getElementById("gmap3"));
+    
+   
+        if (zlocation){
+              zoomToLocation(zlocation);    
+        }
+        else{
+           gmap.setCenter(new google.maps.LatLng(9.97335, -15.8203),2);
+        }
+   
+    gmap.addControl(new google.maps.LargeMapControl());
+    gmap.addControl(new google.maps.MapTypeControl());
+    
+   // Plot the people as markers
+    $.each(people, function() {
+        var lat = this[0];
+        var lon = this[1];
+        var name = this[2];
+        var profile = this[3];
+        var batch = this[4];
+        var type = this[5];
+        var photo = this[6];
+        var address = this[7];
+        var  url = this[8]
+        var point = new google.maps.LatLng(lat, lon);
+        var marker = new google.maps.Marker(point, getMarkerOpts());
+        gmap.addOverlay(marker);
+        // Hook up the marker click event
+        google.maps.Event.addListener(marker, 'click', function() {
+            marker.openInfoWindow(makeWindow(
+                name,profile,batch,type,photo,address,url,
+                lat,lon
+            ));
+        });                 
+    });         
+  
+
+};
+
+
+
+</script>
+
+     
+     
+     
+        
+     
+   
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+  
+  
+  <div id="gmap3"  class="gmap">
+ 
+        </div>
+  
+   <h1> Locate Alumni </h1>
+   
+   
+   {% ifequal level 'country' %}
+   
+              <a href="{% url locateurl %}">Alumni World Wide </a>
+              
+                <h3> 
+                     Total People {{count}} </h3>
+              
+           <table cellpadding="15" cellspacing="15" width="100%" >
+                {% for country,totalpeople in countryzip  %}
+                
+                 {% if  forloop.first  %}
+                        <tr>
+                      {% endif %}
+                   
+                      <td >  <a href="{% url countryurl country|slugify %}">  {{country}} ({{totalpeople}})   </a>     </td>
+                        
+                  {% if  forloop.last  %}
+                                 </tr>
+                  {% else %}
+                         {% if  forloop.counter|divisibleby:"4"  %}
+                            </tr>
+                             <tr>
+                           {% endif %}          
+                  {% endif %}         
+                   
+                {% endfor %}
+               
+            </table>   
+     
+    {% endifequal %}
+    
+    
+    {% ifequal level 'state' %}
+    
+  
+    
+          <h2> You are at </h2>  <a href="{% url locateurl %}">Alumni World Wide </a>  &nbsp; >>  <a href="{% url countryurl country|slugify %}">  {{country}} </a>  
+      
+        <h3> 
+                Total number of People {{count}} </h3>
+      
+        <table cellpadding="15" cellspacing="15" width="100%" >
+           {% for state,totalpeople in statezip  %}
+                  
+                   {% if  forloop.first  %}
+                        <tr>
+                      {% endif %}
+                  
+                     <td>  <a href="{% url stateurl country|slugify  state|slugify %}">  {{state}} ({{totalpeople}})   </a>     </td>
+                 
+                        {% if  forloop.last  %}
+                                 </tr>
+                        {% else %}
+                         {% if  forloop.counter|divisibleby:"3"  %}
+                            </tr>
+                             <tr>
+                           {% endif %}          
+                     {% endif %}  
+                 
+           {% endfor %}          
+       </table>
+        
+        
+          {% endifequal %}
+    
+    
+     {% ifequal level 'city' %}
+     
+     
+         <h2> You are at </h2>  <a href="{% url locateurl %}">Alumni World Wide </a>  &nbsp;>>   <a href="{% url countryurl country|slugify %}">  {{country}} </a>
+           &nbsp;  >> <a href="{% url stateurl country|slugify  state|slugify %}"> {{state}}  </a>
+          
+          <h3> 
+          Total People {{count}} </h3>
+         <h2> Alumni living in this state are </h2>
+         
+         <table cellpadding="15" cellspacing="15" width="100%" >
+          
+            {% for member,entity in peopledisplayzip %}
+             {% if  forloop.first  %}
+                        <tr>
+                      {% endif %}
+            
+                <td width="50%">
+               <img src="{% thumbnail  member.getImage  40x40 %}" /> 
+              <a href="{{member.get_absolute_url}}">   {{member.fullname}}  </a><br/>
+                {% if member.isStudent %}
+                   Batch:  {{entity.getBatch}} <br/>
+                {% endif %}
+                {% if  entity.getSimpleProfile %}
+                     {{entity.getSimpleProfile}} <br/>
+                {% endif %}             
+                {{member.address}}
+                
+               </td>
+                
+                 {% if  forloop.last  %}
+                                 </tr>
+                        {% else %}
+                         {% if  forloop.counter|divisibleby:"2"  %}
+                            </tr>
+                             <tr>
+                           {% endif %}          
+                     {% endif %}  
+            {% endfor %}
+         </table>
+         
+         
+          {% if pagedetail.has_next %}
+          
+                 <a href="{% url statepageurl country|slugify  state|slugify  pagedetail.next_page_number %}"> Next  </a> &nbsp; &nbsp; 
+            
+         {% endif %}
+        
+         {% if pagedetail.has_previous %}
+         
+                 <a href="{% url statepageurl country|slugify  state|slugify  pagedetail.previous_page_number %}"> Previous  </a>  &nbsp; &nbsp;
+          
+         {% endif %}
+         
+        
+          
+     
+     {% endifequal %}
+     
+     
+     <br />
+     
+      <!--<a href="javascript:void(0)" class="lite_button" onclick="unhide('locatemessagebox')">
+        
+         {% ifequal level 'state' %}
+        
+         Send message to all people in {{country}}
+        
+        {% endifequal %}
+      
+      {% ifequal level 'city' %}
+        
+         Send message to all people in {{state}}
+        
+        {% endifequal %}      
+      
+      
+      </a> -->
+      
+      
+      
+    <span id="bucketerrormessage">  </span>
+     
+     <div id="locatemessagebox"  class="hide">
+      
+    
+      
+      <form action="." method="POST">
+        
+            <textarea rows="3" cols="7" name="message"></textarea>
+            
+            <br/>
+            
+            <span id="errormessagespan">  </span>
+            <input  type="button"
+                    
+                     {% ifequal level 'state' %}
+                    onclick="sendBucketMessage('{% url countryurl country|slugify %}')"
+                    {% endifequal %}
+                    
+                     {% ifequal level 'city' %}
+                    onclick="sendBucketMessage('{% url stateurl country|slugify  state|slugify %}')"
+                    {% endifequal %}
+                    
+                   
+                    
+                    id="sendbutton"
+                    value="Send Message"/>
+        
+        
+      </form> 
+      
+      
+      
+      
+     </div>
+     
+</div>  
+</div>
+      
+{% endblock %}      
+     

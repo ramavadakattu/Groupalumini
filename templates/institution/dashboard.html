@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+
+  
+  
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+     
+     {% if latest_entries %}
+    
+    <h2> Latest Updates </h2>
+    
+    
+    
+     <ul>
+    {% for classname,entry in latest_entries %}
+                   
+                {% ifequal classname 'Question' %}
+                <li class="starlist">
+			
+			
+                        <span class="thumb"><img src="{% thumbnail  entry.user.get_profile.getImage  50x50 %}" /> </span>
+                                                        
+                     <span class="status">  <a href="{{entry.user.get_profile.get_absolute_url}}" class="noul">      {{entry.user.get_profile.fullname}}  </a> has asked the question, 
+                        <a href="{% url displayquestionurl entry.id %}" class="noul">    {{entry.subject}}   </a><br />
+             
+                       <span class="small"> {{ entry.createddate|timesince }}  ago</span></span>
+                 </li>
+                
+                {% endifequal %}
+                 {% ifequal classname 'Job' %}
+                <li class="starlist">
+                  
+		  
+		  {% if entry.postedby %}
+                   <span class="thumb"><img src="{% thumbnail  entry.postedby.get_profile.getImage  50x50 %}" /> </span>
+                   <span class="status">
+                  <a href="{{entry.postedby.get_profile.get_absolute_url}}" class="noul">      {{entry.postedby.get_profile.fullname}}  </a>
+		 {% else  %}		 
+		 Alumclub Admin
+		 {% endif %}		  
+		  
+		  has posted the job, 
+                        <a href="{% url viewjoburl entry.id %}" class="noul">    {{entry.title}}
+			
+			
+			{% if entry.location %}
+			({{entry.location}})
+			{% endif %}			
+			
+			</a> <br />
+              
+                        <span class="small">{{ entry.createddate|timesince }}  ago</span></span>
+                 
+                    
+                </li>
+                
+                {% endifequal %}
+                
+                
+                 {% ifequal classname 'Event' %}
+                <li class="starlist">
+                   <span class="thumb"><img src="{% thumbnail  entry.user.get_profile.getImage  50x50 %}" /> </span>
+               <span class="status"> <a href="{{entry.user.get_profile.get_absolute_url}}" class="noul">      {{entry.user.get_profile.fullname}}  </a> has created the event, 
+                        <a href="{% url vieweventurl  entry.id %}" class="noul">    {{entry.what}}   </a> <br />
+                        <span class="small">{{ entry.createddate|timesince }}  ago</span></span>
+                 
+                    </li>
+                
+                {% endifequal %}
+                
+                
+                 {% ifequal classname 'Entry' %}
+                <li class="starlist">
+                   <span class="thumb"><img src="{% thumbnail  entry.user.get_profile.getImage  50x50 %}" /> </span>
+                 <span class="status"><a href="{{entry.user.get_profile.get_absolute_url}}" class="noul">      {{entry.user.get_profile.fullname}}  </a> has posted a new newsletter,
+                        <a href="{% url singleposturl  entry.id %}" class="noul">    {{entry.headline}}   </a><br />
+                        <span class="small">{{ entry.createddate|timesince }}  ago</span></span>
+                 </li>
+                
+                {% endifequal %}
+                
+                {% ifequal classname 'Answer' %}
+                <li class="starlist">
+			
+			
+                   <span class="thumb"><img src="{% thumbnail  entry.user.get_profile.getImage  50x50 %}" /> </span>
+                <span class="status"> <a href="{{entry.user.get_profile.get_absolute_url}}" class="noul">      {{entry.user.get_profile.fullname}}  </a> has answered the question, 
+                        <a href="{% url displayquestionurl  entry.question.id %}" class="noul">    {{entry.question.subject}}   </a><br />
+                        <span class="small">{{ entry.createddate|timesince }}  ago</span></span>
+                 </li>
+                {% endifequal %}
+                
+                
+                  {% ifequal classname 'Fund' %}   
+                 <li class="starlist">
+                  <span class="thumb"><img src="{% thumbnail  entry.user.get_profile.getImage  50x50 %}" /> </span>
+                 <span class="status"><a href="{{entry.user.get_profile.get_absolute_url}}" class="noul">      {{entry.user.get_profile.fullname}}  </a> has created a new fund,
+                        <a href="{% url viewfundurl  entry.id %}" class="noul">    {{entry.fundname}}   </a><br />
+  Amount to raise  {{entry.totalamount}} USD 
+             <br />
+                        <span class="small">{{ entry.createddate|timesince }}  ago</span></span>
+               </li>
+                {% endifequal %}
+                
+                  {% ifequal classname 'Comment' %}                
+                <li class="starlist">
+                
+                              {% if entry.nouser %}
+                                  <span class="thumb"> <img src="{% thumbnail  "images/default.gif"  50x50 %}" />  </span>    
+                                  <span class="status"><a href="{{entry.webaddress}}" class="noul">   {{entry.username}}  </a>           
+                              {% else %}
+                              <span class="thumb"> <img src="{% thumbnail  entry.user.get_profile.getImage  50x50 %}" /> 
+                                   <span class="status"><a href="{{entry.user.get_profile.get_absolute_url}}" class="noul">  {{entry.user.get_profile.fullname}} </a>
+                               {% endif %}
+                               
+                               has posted the comment</span> <br/>
+                               
+                               <i>
+                         {{entry.getNText|safe}} 
+                               </i>
+                               
+                               on  newsletter  <br/>                       
+                                 <a href="{% url singleposturl  entry.entry.id %} class="noul"">  {{entry.entry.headline}}    </a>                          
+                                      <span class="small">{{ entry.createddate|timesince }}  ago</span></span>
+                                      
+                </li>
+                {% endifequal %}
+                
+                
+                 {% ifequal classname 'Donation' %}
+                 <li class="starlist">
+                   <span class="thumb"><img src="{% thumbnail  entry.user.get_profile.getImage  50x50 %}" /> </span>
+                  <span class="status"><a href="{{entry.user.get_profile.get_absolute_url}}" class="noul">      {{entry.user.get_profile.fullname}} </a>  has donated {{entry.donationamount}}  USD towards <a href="{% url viewfundurl  entry.fund.id %}" class="noul">    {{entry.fund.fundname}}   </a> fund. &nbsp; &nbsp;    {{ entry.createddate|timesince }}  ago
+                    <br/>
+                      Total Amount Donated untill now : {{entry.fund.totaldonations}} US$</span>
+                </li>
+                {% endifequal %}
+                
+                  {% ifequal classname 'EventAttendance' %}
+                  <li class="starlist">
+                     <span class="thumb"><img src="{% thumbnail  entry.user.get_profile.getImage  50x50 %}" /> </span>
+                      <span class="status">        <a href="{{entry.user.get_profile.get_absolute_url}}" class="noul">      {{entry.user.get_profile.fullname}} </a>  is attending the event  ,<a href="{% url vieweventurl  entry.event.id %}" class="noul">    {{entry.event.what}}   </a> <br />
+                                   <span class="small"> {{ entry.createddate|timesince }}  ago</span></span>
+                                    
+                          <br/>
+                          
+                          Total number of people attending the event is  :  {{entry.event.getTotalAttending}}
+                 
+                    </li>
+                
+                {% endifequal %}
+                
+    {% endfor %}
+    </ul>
+    {% else %}
+    
+         There are no latest updates from the alumini.
+         Meanwhile you can : <br/>
+         <ul style="list-style:circle">
+             <li><a href="{% url askquestionurl %}"> Ask a Question</a></li>
+             <li><a href="{% url postjoburl %}"> Post a Job</a></li>
+             <li><a href="{% url createeventurl %}"> Create an Event</a></li>
+         </ul>
+    {% endif %}
+    </div>  <!-- End Maincontent -->
+</div> <!-- omega grid -->
+  
+{% endblock %}
+
+
+
+
+
+

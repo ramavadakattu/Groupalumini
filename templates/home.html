@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>{% block title %}{% endblock %}</title>
+
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery13.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/alumutils.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.pngFix.js"></script> 
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/modal/feedback.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/modal/interface.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.form.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.coda-slider-2.0.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.bgpos.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/cufon-yui.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/nevis_700.font.js"></script>
+
+<script type="text/javascript"> 
+			Cufon.replace('p.title', {
+				color: '#fec447',
+				textShadow: '#333 0px 0px, #333 2px 2px'
+			});
+			
+		</script> 
+	 <script type="text/javascript">
+		$().ready(function() {
+    $('#coda-slider-1').codaSlider({
+        autoSlide: true,
+        autoSlideInterval: 4000,
+		dynamicTabs: false,
+		dynamicArrows: false,
+        autoSlideStopWhenClicked: true
+    });
+
+		$(document).pngFix(); 
+		});
+	 </script>	
+         
+<link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/reset.css" />
+<link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/960.css" />
+<link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/960a.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="{{ MEDIA_URL }}css/cssgotchas.css"/>
+<link rel="stylesheet" type="text/css" media="screen" href="{{ MEDIA_URL }}css/coda-slider-2.0.css"  />
+
+<!--[if IE 7]>
+
+
+<![endif]-->
+
+<!--[if IE 6]>
+<style>
+#navlist li a{
+    position: relative;
+    }
+a#alumlogo2 {
+    margin:10px 0 5px 5px;
+    }
+</style>
+<![endif]-->
+
+ {% block  amedia %}   {% endblock %}
+
+</head>
+<body>
+
+<div class="container_12">
+	
+	<!-- Head Div -->
+    <div class="grid_12" id="navbar">
+        <div class="grid_4 alpha">
+            <a href="{% url homeurl %}" style="background:transparent;" id="alumlogo2">
+            <img src="{{ MEDIA_URL }}images/frame/alumclub_logobig.png" width="118" height="61" alt="AlumClub" id="alumogo" /></a>
+        </div>
+        <div class="grid_8 omega">
+         <ul id="navlist">
+                <li><a href="{% url homeurl %}" >Home</a></li>
+                <li><a href="{% url featuresurl %}" >Features</a></li>
+                <li><a href="{% url iregister %}" >Register</a></li>
+                <li><a href="{% url abouturl %}" >About</a></li>
+                 <li><a href="http://blog.alumclub.net" >Blog</a></li>
+                <li><a href="{% url contacturl %}" >Contact</a></li>
+            </ul>
+        </div>
+    </div>
+	<div class="clear">&nbsp;</div>
+    
+	<!-- End Navbar Div-->
+	
+	<!--Top Section-->
+	<div class="grid_12 topSection">
+    	<noscript>
+	<div>
+        <p>Unfortunately your browser does not hava JavaScript capabilities which are required to exploit full functionality of our site. This could be the result of two possible scenarios:</p>
+        <ol>
+            <li>You are using an old web browser, in which case you should upgrade it to a newer version. We recommend the latest version of <a href="http://www.getfirefox.com">Firefox</a>.</li>
+            <li>You have disabled JavaScript in you browser, in which case you will have to enable it to properly use our site. <a href="http://www.google.com/support/bin/answer.py?answer=23852">Learn how to enable JavaScript</a>.</li>
+        </ol>
+    </div>
+</noscript>
+
+<div class="coda-slider-wrapper">
+	<div class="coda-slider preload" id="coda-slider-1">
+		<div class="panel">
+			<div class="panel-wrapper">
+            <img src="{{ MEDIA_URL }}images/frame/slide01.png" style="float:right"  />
+            <p class="title">Search Alumni</p>
+				<p class="titletext">Search alumni based on their profile. We help improve your network by finding alumni with similar intrests.</p>
+			
+				</div>
+		</div>
+		<div class="panel">
+			<div class="panel-wrapper">
+            <img src="{{ MEDIA_URL }}images/frame/slide02.png" style="float:right"  />
+				<p class="title">Discussion Area</p>
+				<p class="titletext">Raise and Participate in a discussion. Answers queries and comment on posts like a virtual discussion.</p>
+			
+                </div>
+		</div>
+		<div class="panel">
+			<div class="panel-wrapper">
+            <img src="{{ MEDIA_URL }}images/frame/slide01.png" style="float:right"  />
+				<p class="title">Jobs Directory</p>
+				<p class="titletext">Part of the classified section to post and view jobs. A very effective way of roping in your institute's alumni in our next big venture.</p>
+			</div>
+		</div>
+		<div class="panel">
+			<div class="panel-wrapper">
+            <img src="{{ MEDIA_URL }}images/frame/slide02.png" style="float:right"  />
+				<p class="title">Alumni Statistics</p>
+				<p class="titletext">Provide statistics about Alumni in terms of Industry, Course and Batch.</p>
+			</div>
+		</div>
+	</div><!-- .coda-slider -->
+</div><!-- .coda-slider-wrapper -->
+
+    
+	</div>
+	
+	
+	<div class="clear">&nbsp;</div>
+	<!--End TopSection-->
+	
+	
+	<!-- content Area-->
+    <div class="grid_12" id="maincont">
+	
+	<div class="errorbox">
+    {% include 'message_frag.html' %}    
+  </div>
+	   {% block content %}
+	   
+		 {% include 'alumclub_home.html' %}
+        
+         {% endblock %}
+	
+ 
+	</div>
+	<div class="clear">&nbsp;</div>
+
+
+ </div>  
+ <!-- Footer -->
+	{% include 'footer.html' %}
+	<!--End Footer-->	
+<!-- block extrascripts -->   
+    {% block extrascripts %} 
+    
+    
+    {% endblock %}
+    
+    
+    
+<script src="http://static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">clicky.init(148155);</script>
+
+    
+    
+    
+</body>
+</html>

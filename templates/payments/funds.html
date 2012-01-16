@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block amedia %}
+
+   <script type="text/javascript" src="{{ MEDIA_URL }}scripts/funds/funds.js"></script>
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+   
+
+{% load thumbnail %}
+
+{% load humanize %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+      
+     <h2> Funding Projects </h2>
+     <a href="{% url displayfundsurl %}" class="large_link">Open Funds</a>
+      &nbsp;/&nbsp; 
+     <a href="{% url displayclosefundsurl %}" class="large_link">Closed Funds</a>  
+     
+     
+     <table class="standard">
+        <tr> <th width="20%"> Fund Name </th>
+             <th width="20%"> Total Amount to Raise </th>
+             <th width="20%"> Total Amount Donated </th>
+             <th width="20%"> Last Date </th>
+             <th width="20%">  </th>
+         </tr>    
+        
+        {% for fund in fund_list %}
+        <tr>
+        <td>        
+          <a href="{% url viewfundurl fund.id %}"> {{fund.fundname}}  </a>
+          <br/>
+       
+          
+        </td>
+        <td>        
+          {{fund.totalamount}} USD
+        </td>
+         <td>        
+          {{fund.totaldonations}}          
+        </td>
+        <td>        
+          {{fund.deadline|naturalday}}          
+        </td>
+         {% ifequal type 'open' %}
+        <td>
+         
+          <a href="{% url enteramounturl fund.id %}" class="large_link">  Donate Now </a>
+           
+          
+        </td>
+        {% endifequal %}
+       
+        
+        </tr>
+        {% endfor %}
+        
+     </table> 
+     
+     {% ifequal type 'open' %}
+     
+     <div class="action_button"><a href="{% url addnewfundurl %}"> Add New Fund </a></div>
+     
+     {% endifequal %}
+     
+     <br/>
+     <br/>
+     
+      {% if page_obj.has_previous %}
+      
+               {% ifequal type 'open' %}
+                            <a href="{% url displayfundsurl %}?page={{page_obj.previous_page_number}}"> Previous   </a>
+                {% endifequal %}            
+                         
+                 
+                 {% ifequal type 'close' %}         
+                           <a href="{% url displayclosefundsurl %}?page={{page_obj.previous_page_number}}"> Previous  </a>
+                  {% endifequal %}
+                  
+      {% endif %}
+      
+      
+        {% if page_obj.has_next %}
+                {% ifequal type 'open' %}
+                            <a href="{% url displayfundsurl %}?page={{page_obj.next_page_number}}"> Next   </a>
+                {% endifequal %}            
+                         
+                 
+                 {% ifequal type 'close' %}         
+                           <a href="{% url displayclosefundsurl %}?page={{page_obj.next_page_number}}"> Next  </a>
+                  {% endifequal %}     
+                  
+         {% endif %}
+     
+</div>
+   </div>
+{% endblock %}
+    
+    

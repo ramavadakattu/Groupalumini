@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{% block  amedia %}
+   <script type="text/javascript" src="{{ MEDIA_URL }}scripts/newmember.js"></script>
+   
+   
+   <script type="text/javascript" charset="utf-8">
+ 
+   var map =[ 
+    {% for department in institute.department_set.all %}
+          [{{department.id}}                   
+             {% for course in department.course_set.all %}
+                      ,{{course.id}},"{{course.name}}" 
+             {% endfor %}
+          ],  
+    {% endfor %}
+    ];
+     
+   
+   window.onload = function() {    
+        
+        $("#sdepartment").change(selectedDepartment);       
+        selectedDepartment();
+       
+        
+        
+   }
+   
+   function selectedDepartment()
+   {
+    
+   
+    
+    selectedindex =  $("#sdepartment").val(); 
+     $.each(map,function() {
+     
+    
+     if ( this[0] == selectedindex )
+     {         
+          $('#id_course').find('option').remove();
+         courselength = this.length -1;
+         index = 1;
+        
+         while ( index <= courselength)
+         {
+           value = this[index];
+           text = this[index+1];
+           index = index +2;          
+           $("#id_course").append($('<option></option>').val(value).html(text));                                  
+         }                 
+     }    
+    
+   })
+           
+           
+   }
+   
+   
+   
+   
+   
+ 
+ </script>
+         
+{% endblock %}
+
+
+{% block content %}
+
+<div class="grid_3 alpha" >
+	{% include 'institution/account_side_bar.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+  
+  
+  
+  {% ifequal whichform  'student' %}
+  
+<div id="studentbox">
+ 
+<form id="studentform"  name="estudentform"  action="."  method="POST" >  
+
+  <p> {{sform.non_field_errors}} </p>
+
+   <h2> Personal Details </h2>
+     
+   <table>
+<tr><th width="300"><label for="id_email">Email:</label></th><td>
+   <span class="errors">{{ sform.email.errors }}    </span>            
+                {{ sform.email }}</td></tr>
+
+
+<tr><th><label for="id_name">Full Name:</label></th><td>
+<span class="errors">{{sform.name.errors}}</span>
+{{sform.name}}
+
+</td></tr>
+
+   </table>
+<br /><br />
+
+   <h2> Institute Details </h2>
+   
+   <table>
+    
+    <tr><th><label for="id_institutename">Institute Name:</label></th><td>
+
+<span class="errors">{{sform.institutename.errors}}</span>
+{{sform.institutename}}
+
+</td></tr>
+    
+    
+    <tr><th><label for="id_fromyear">From:</label></th><td>
+    
+<span class="errors">{{sform.fromyear.errors}}</span>
+{{sform.fromyear}}
+    
+    </td> 
+    <th><label for="id_toyear">To:</label></th><td>
+
+    
+<span class="errors">{{sform.toyear.errors}}</span>
+{{sform.toyear}}<br/>
+{{sform.toyear.help_text|safe}}
+
+
+</td></tr>
+    
+    <tr><th><label for="id_department">Department:</label></th><td>
+
+<span class="errors">{{sform.department.errors}}</span>
+{{sform.department}}
+
+</td></tr>
+    
+    
+        <tr><th><label for="id_course">Course:</label></th><td>
+
+<span class="errors">{{sform.course.errors}}</span>
+{{sform.course}}
+
+</td></tr>
+        
+         <tr><th><label for="id_course">Degree:</label></th><td>
+
+<span class="errors">{{sform.degree.errors}}</span>
+{{sform.degree}}
+
+</td></tr>
+   
+    </table>
+
+
+<table>
+   
+   
+   
+
+    <tr>
+   <td>
+    
+    <input type="hidden" value="{{form_default}}" name="whichform"/>
+    
+    <input type="submit" class="flite_button" value="Update Profile"/>    </td>
+  </tr>
+   
+   </table>
+
+  </form>
+
+ 
+</div>
+     
+  {% endifequal %}
+  
+  
+  
+   {% ifequal whichform  'faculty' %}
+   
+   
+   
+<div id="facultybox">
+
+
+<form id="facultyform" name="efacultyform"  action="."  method="POST" >
+
+<p> <span class="errors">{{fform.non_field_errors}}</span> </p>
+ <h2> Personal Details </h2>
+ 
+ <table>
+ <tr><th><label for="id_email">Email:</label></th><td>
+  <span class="errors"> {{ fform.email.errors }}  </span>              
+                {{ fform.email }}</td></tr>
+
+
+<tr><th><label for="id_name">Name:</label></th><td>
+<span class="errors">{{fform.name.errors}}</span>
+{{fform.name}}
+
+</td></tr>
+
+</table>
+
+<h2> Insitute Details </h2>
+
+<table>
+<tr><th><label for="id_institutename">Institute Name:</label></th><td>
+
+<span class="errors">{{fform.institutename.errors}}</span>
+{{fform.institutename}}
+
+</td></tr>
+<tr><th><label for="id_fdepartment">Department:</label></th><td>
+
+<span class="errors">{{fform.department.errors}}</span>
+{{fform.department}}
+
+</td></tr>
+</table>
+
+
+
+
+ <table>
+  
+     <tr>
+    <td>
+     
+     <input type="hidden" value="{{form_default}}" name="whichform"/>
+     <input type="submit"  class="flite_button" value="Update Profile"/>    </td>
+   </tr> 
+ </table>
+    
+    
+    </form>
+
+</div>
+
+   {% endifequal %}
+  
+    </div>
+    </div>
+</div> 
+
+{% endblock %}
+
+ 
+
+
+
+

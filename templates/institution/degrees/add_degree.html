@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+ {% if editmode %}
+    Edit  department 
+ {% else %}
+      Add new department      
+ {% endif %}       
+      
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+  {% load thumbnail %}
+  <div class="grid_3 alpha" >
+	{% include 'institution/account_side_bar.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>  
+  {% if editmode %}  
+    <h2> Edit Degree </h2>
+  {% else %}  
+    <h2> Add Degree </h2>  
+  {% endif %}
+  
+  <form action="." method="POST">
+  
+            Name :<br />
+            <span class="errors">{{form.name.errors}}</span>
+            {{form.name}}<br />
+            Established (optional):<br />
+            <span class="errors">{{form.established.errors}}</span>
+            {{form.established}}<br /><br />
+            <input type="submit" class="flite_button"
+                   
+                   {% if editmode %}
+                    value="Edit Degree"                   
+                   {% else %}
+                   value="Add Degree"                  
+                   {% endif %}                           
+                   />
+            </td>
+    </tr>           
+  </table>
+        
+    </form> 
+  </div>
+  
+</div>
+  
+{% endblock %}
+
+ 
+
+
+
+

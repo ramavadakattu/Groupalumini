@@ -1,0 +1,22 @@
+
+
+<div id="errormessages1">   
+   
+   {% if session_messages %}  
+   <div class="error_mssg">
+         <ul class="messages">
+             {% for message in session_messages %}
+             <li>{{ message }}</li>
+              {% endfor %}
+         </ul>
+     </div>
+    {% endif %}
+    
+   
+    {% if messages %}
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}</div>

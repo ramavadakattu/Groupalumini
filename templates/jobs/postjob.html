@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block amedia %}
+
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}wysiwyg/jHtmlArea.css" />
+       <script type="text/javascript" src="{{ MEDIA_URL }}wysiwyg/jHtmlArea.js"></script>
+        <script type="text/javascript" src="{{ MEDIA_URL }}scripts/editor.js"></script>
+        
+        
+         
+  {% include 'autocompletescripts.html' %}
+  
+  <script type="text/javascript" charset="utf-8">
+ 
+   window.onload = function() {     
+        
+        url = "/interesting/taglookup"
+        $("#id_tags").autocomplete(url,{dataType:'json',                                  
+                                  parse: function(data) {
+          var rows = new Array();
+          for(var i=0; i<data.length; i++){              
+              rows[i] = { data:data[i], value:data[i], result:data[i] };
+          }
+          return rows;
+      },
+       formatItem: function(data, i,max,value,term) {
+          return value;
+      },
+       multiple: true,
+       multipleSeparator: " ", 
+      })
+   }
+        
+    </script>    
+         
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+     
+     
+<h2> Jobs Board</h2>
+
+
+   <div id="jobpostbox">
+    
+    <form method="POST" action="."  id="jobform">
+    Title : <br />
+    <span class="error">{{form.title.errors}}</span>
+    {{form.title}}  <br/>
+    
+    Description:
+    <span class="error">{{form.description.errors}}</span>
+    {{form.description}}    <br/>
+    
+    
+    Location:   <br />
+ 
+    <span class="error">{{form.location.errors}}</span>
+    {{form.location}}
+    <br />
+    Tags :<br />
+    <span class="error">{{form.tags.errors}}</span>
+    {{form.tags}}
+    <br/>
+    <span class="small">All tags should be space saperated , Quotes are not allowed, use Hypen for multi-word tags</span>
+    
+    
+    <!--<br/>
+    <br/>
+    Send email to :
+    <span class="error">{{form.sendemail.errors}}</span>
+    {{form.sendemail}} -->
+    
+    <br/><br />
+    
+    {% if editmode %}
+    <input type="submit" class="form_button" value="Editing Done" />
+    {% else %}    
+    <input type="submit" class="form_button" value="Submit" />
+    {% endif %}
+    
+    </form>
+    </div>
+    
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+
+{% if editmode %}    
+    Edit Course
+ {% else %}
+    Add new course 
+ {% endif %}       
+      
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+  {% load thumbnail %}
+ <div class="grid_3 alpha" >
+	{% include 'institution/account_side_bar.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>   
+  
+  <h2> Add Course </h2>
+  
+  <form action="." method="POST">
+  <br/> 
+            Name :<br/> 
+            <span class="errors">{{form.name.errors}}</span>
+            {{form.name}}<br/> 
+            Introduced (optional):<br/> 
+           <span class="errors">{{form.introduced.errors}}</span>
+            {{form.introduced}}
+            <br/> 
+             Departments (optional)           
+             <span class="small">(which are undertaking the course ) </span><br/> 
+             
+            <span class="errors">{{form.departments.errors}}</span>
+            {{form.departments}}
+            <br/><br />
+            <input type="submit" class="flite_button"                  
+                        {% if editmode %}    
+                             value="Edit Course"
+                         {% else %}
+                            value="Add new Course"
+                         {% endif %}       
+                    />
+            </td>
+        
+    </form> 
+  </div>
+  
+ </div>
+  
+  
+{% endblock %}
+
+ 
+
+
+
+

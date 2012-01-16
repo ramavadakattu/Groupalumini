@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>{% block title %}{% endblock %}</title>
+
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery13.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/alumutils.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/modal/feedback.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/modal/interface.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.form.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/cufon-yui.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/nevis_700.font.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.pngFix.js"></script> 
+
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.coda-slider-2.0.js"></script>
+
+<link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/reset.css" />
+
+<link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/960.css" />
+<link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/960_inside.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="{{ MEDIA_URL }}css/screen.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="{{ MEDIA_URL }}css/cssgotchas.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="{{ MEDIA_URL }}css/coda-slider-2.0.css"  />
+<!--[if IE 6]>
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/ie6.css" />
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/ie7.css" />
+<![endif]-->
+
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.bgpos.js"></script>
+<script type="text/javascript"> 
+			Cufon.replace('#institutelogo h2', {
+				color: '#333',
+				textShadow: '#DDD 0px 0px, #DDD 2px 2px'
+			});
+			
+</script> 
+
+      
+ {% block  amedia %}   {% endblock %}
+ 
+</head>
+<body>
+<!-- Header -->
+    {% include 'institution/topbox.html' %}
+    <!-- End Header-->
+<div class="container_12">
+	
+	<!-- content Area-->
+    <div class="grid_12" id="maincont">
+       {% block content %}
+        
+         {% endblock %}
+         <div class="clear">&nbsp;</div>
+	</div>
+	<div class="clear">&nbsp;</div>
+	<!--End Content Area-->
+	
+    
+	<!--Spacer-->
+	<div class="grid_12 spacer">
+	</div>
+	<div class="clear">&nbsp;</div>
+	<!--End Spacer-->
+
+
+	
+    
+    	
+</div><!-- end container --> 
+
+<!-- Footer -->
+	{% include 'footer_inside.html' %}
+	<!--End Footer-->	
+   
+<!-- block extrascripts -->   
+    {% block extrascripts %} 
+    
+    
+    {% endblock %}
+    
+    
+    
+<script src="http://static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">clicky.init(148155);</script>
+
+    
+    
+    
+</body>
+</html>

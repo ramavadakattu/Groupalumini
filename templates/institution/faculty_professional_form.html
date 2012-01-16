@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block amedia %}
+
+ <script type="text/javascript" src="{{ MEDIA_URL }}scripts/newmember.js"></script>
+ 
+ 
+ <script type="text/javascript" charset="utf-8">
+ 
+   
+   
+ </script>
+
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="grid_3 alpha" >
+	{% if editmode  %}
+  {% include 'institution/account_side_bar.html' %}
+  
+  {% endif %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>  
+
+<h2> Professional Details </h2>
+<h4> We will connect you to  other professional who are there in your value chain</h4>
+<br/>
+
+  <form
+        
+        
+        {% if editmode %}
+        action="{% url newprofessionalformurl %}?edit=1"
+        {% else %}
+            action="{% url newprofessionalformurl %}"
+        {% endif %}
+        
+        
+        
+        method="POST">
+  <table>
+
+  {{form.as_table}}
+   </table>
+  
+   {% if editmode  %}
+   
+   <input type="submit" value="Update Professional Details"/>
+   
+   {% else %}
+   <input type="submit" class="flite_button" value="Add Professional detail"/>
+    
+    <input type="button" class="flite_button"  value="I'm busy, I will fill it later"/>
+    
+   {% endif %} 
+    
+   
+    
+  
+  
+  </form>
+  
+  
+{% endblock %}
+
+ 
+
+
+
+

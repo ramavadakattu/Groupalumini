@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block content %}
+
+{% load thumbnail %}
+<!-- the feature slider -->
+<script type="text/javascript"> 
+			Cufon.replace('p.title', {
+				color: '#fec447',
+				textShadow: '#333 0px 0px, #333 2px 2px'
+			});
+			
+		</script> 
+<script type="text/javascript">
+		$().ready(function() {
+    $('#coda-slider-1').codaSlider({
+        autoSlide: true,
+        autoSlideInterval: 4000,
+		dynamicTabs: false,
+		dynamicArrows: false,
+        autoSlideStopWhenClicked: true
+    });
+
+		$(document).pngFix(); 
+		});
+	 </script>	
+
+    	<noscript>
+	<div>
+        <p>Unfortunately your browser does not hava JavaScript capabilities which are required to exploit full functionality of our site. This could be the result of two possible scenarios:</p>
+        <ol>
+            <li>You are using an old web browser, in which case you should upgrade it to a newer version. We recommend the latest version of <a href="http://www.getfirefox.com">Firefox</a>.</li>
+            <li>You have disabled JavaScript in you browser, in which case you will have to enable it to properly use our site. <a href="http://www.google.com/support/bin/answer.py?answer=23852">Learn how to enable JavaScript</a>.</li>
+        </ol>
+    </div>
+</noscript>
+
+<div class="coda-slider-wrapper">
+	<div class="coda-slider coda-slider_inside preload" id="coda-slider-1">
+		<div class="panel">
+			<div class="panel-wrapper">
+            <img src="{{ MEDIA_URL }}images/frame/slide01.png" style="float:right"  />
+            <p class="title">Search Alumni</p>
+				<p class="titletext">Search alumni based on their profile. We help improve your network by finding alumni with similar intrests.</p>
+			
+				</div>
+		</div>
+		<div class="panel">
+			<div class="panel-wrapper">
+            <img src="{{ MEDIA_URL }}images/frame/slide02.png" style="float:right"  />
+				<p class="title">Discussion Area</p>
+				<p class="titletext">Raise and Participate in a discussion. Answers queries and comment on posts like a virtual discussion.</p>
+			
+                </div>
+		</div>
+		<div class="panel">
+			<div class="panel-wrapper">
+            <img src="{{ MEDIA_URL }}images/frame/slide01.png" style="float:right"  />
+				<p class="title">Jobs Directory</p>
+				<p class="titletext">Part of the classified section to post and view jobs. A very effective way of roping in your institute's alumni in our next big venture.</p>
+			</div>
+		</div>
+		<div class="panel">
+			<div class="panel-wrapper">
+            <img src="{{ MEDIA_URL }}images/frame/slide02.png" style="float:right"  />
+				<p class="title">Alumni Statistics</p>
+				<p class="titletext">Provide statistics about Alumni in terms of Industry, Course and Batch.</p>
+			</div>
+		</div>
+	</div><!-- .coda-slider -->
+</div><!-- .coda-slider-wrapper -->
+	
+	<div class="clear">&nbsp;</div>
+      
+<div class="container_12">
+
+    <div class="grid_6">
+    <div style="padding:20px 0 0 20px;">
+    	<div class="errorbox">
+            {% include 'message_frag.html' %}    
+          </div> 
+          <div id="institutelogo">
+             <h2>  {{institute.name}} Alumni Network </h2>    
+          </div>  
+          
+          <div id="instintroduction">
+              {{institute.description}}    
+          </div>
+        <br /><br />
+  
+          <div id="loginbox" >
+            <span class="error">
+           {{form.non_field_errors}}
+            </span>
+            
+            <form action="." method="POST">
+            Email :<br />
+        
+            {{form.email}}
+            <span class="error">{{form.email.errors}}</span>
+            <br />
+            Password :<br />
+            
+            {{form.password}}
+            <span class="error">{{form.password.errors}}</span>
+          
+                 <input type="hidden" value="{{next}}" name="next" />
+                <br />
+                   <input type="checkbox"  name="rememberme" style="width:30px" /><span class="small">Remember Me</span>
+        <br />
+                 <input type="submit" class="form_button"  value="login" />
+        
+            </form>
+                 <a href="{% url forgotpasswordurl %}" class="small" style="text-decoration:underline" > Forgot Password</a>
+           </div>
+          <br /><br /><br />
+          
+        </div>
+        </div>    
+    
+    <div class="grid_6 alpha"><p style="padding-top:45px">
+    	<IMG src="{{ MEDIA_URL }}images/frame/steps2.png" height="220" width="368" /></<br /><br />
+        {% if institute.active %}
+          <p style="padding:20px 0 20px 50px">
+                
+                <a href="{% url  newmemberurl %}"  title="Register Here!"  style="text-decoration:underline; font-size:24px; font-family:Arial, Helvetica, sans-serif">
+                <IMG src="{{ MEDIA_URL }}images/frame/signup.png" alt="Register Here!"/></a>
+            </p> 
+           
+           {% endif %}
+           
+    </div>
+<div class="clear">&nbsp;</div>	
+</div>
+<div class="clear">&nbsp;</div>
+  
+
+ 
+
+{% endblock %}
+
+
+
+
+

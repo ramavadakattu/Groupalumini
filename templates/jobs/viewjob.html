@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{% block  amedia %}
+
+ 
+ 
+        <script type="text/javascript" src="{{ MEDIA_URL }}scripts/jobs/jobs.js"></script>
+        
+     
+   
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+
+<h2> Jobs Board</h2>
+   <span class="highlight large"> {{job.title}}</span><br />
+  <br/>
+       
+       {% if job.location %}
+      <span class="blue_hl">Location:</span>  {{job.location}} <br/>
+      {% endif %}
+      <span class="blue_hl">Description:</span>
+ {{job.description|safe|urlize}}<br /><br />
+ 
+ {% if job.postedby %}
+ {% ifequal job.postedby.email user.email %}   
+        	<a href="{% url editjoburl job.id %}" >Edit</a>&nbsp;/
+           
+           <a href="{% url deletejoburl job.id %}" >Delete</a>
+                
+        {% endifequal %}
+  {% endif %}	
+	
+	
+        
+       <div class="grid_8"  style="margin-top:25px;margin-bottom:25px; background-color: #F4F4F4; border:1px solid #CeCeCe">
+   				
+   				 <div class="grid_6 alpha">
+                    	<p style="padding:10px">
+                    	 Tags :<br />
+ 						
+                       {% for tag in job.tags %}
+                  		<span class="tags">{{tag.name}}</span>    
+           				{% endfor %}
+                       </p>
+				</div>
+                <div class="grid_2 omega">
+			
+			{% if job.postedby %}
+                    <p style="padding:10px"><a href="{{job.postedby.get_profile.get_absolute_url}}">
+                    <img src="{% thumbnail  job.postedby.get_profile.getImage  40x40 %}" border="0" /> <br />
+                    <span class="blue_hl">  {{job.postedby.get_profile.fullname}}</span></a>
+						
+                    </p>
+		    {% else %}
+		    
+		     <p>  ALumclub admin </p>
+		    
+		    {% endif %}
+		    
+		    
+                </div>
+           </div>
+       <div class="clear">&nbsp;</div><br />
+        <a href="javascript:void(0)" onclick="unhide('commentbox')" class="lite_button">  Post Comment </a>
+        
+        &nbsp; &nbsp; 
+        
+                 
+                  
+        <br /><br />
+     
+     
+       <div id="commentbox"  class="hide">
+        
+        <form id="commentform" > 
+            <textarea  id="id_commentarea" name="commentarea" rows="3" cols="68"></textarea>
+            <br/>        
+           <span id="errormessagespan"> </span>
+           <input type="button" class=" class="flite_button" id="sendbutton" onclick="postComment({{job.id}})"  value="Post Comment" />
+           
+         </form>  
+           
+        </div>
+       
+       
+       
+       <div id="jobcomments">
+        <ol class="comments-list">
+
+         {% for comment in job.jobcomment_set.all %}
+            <li id="comments-0" class="comments-odd">
+			<div class="comments-author">
+     <img src="{% thumbnail  user.get_profile.getImage  64x63 %}" />  <br />
+          
+<a href="{{user.get_profile.get_absolute_url}}"><br />
+  {{user.get_profile.fullname}}  </a>             
+            </div> 
+            <div class="comments-text">
+            {{comment.getNText|safe}} 
+          </div>
+          </li>
+          {% endfor %}
+        </ol>
+       </div> 
+        </div>
+       
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+   
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>   
+      
+      
+      <a href="{% url enteramounturl %}"> Pay now ! </a>
+      
+                 
+       
+       
+       
+       
+     </div>  
+     
+
+
+{% endblock %}
+
+ 

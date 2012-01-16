@@ -1,0 +1,84 @@
+<div id="header">
+<div class="cent-wrap">
+<div class="container_12" >
+        <div class="grid_4">
+        	<p style="margin:10px 0 0 20px">
+             {% load thumbnail %}
+  <a id="insti_logo" accesskey="1" title="{{institute.name}} Alumni Network / Home" href="{{homeurl}}" style="background:transparent;">
+    <img src="{% thumbnail institute.admin.get_profile.photo 300x60 %}" alt="{{institute.name}}" />
+  </a>		</p>
+        </div>
+        {% if user.is_authenticated %}
+        <div id="head_bar" class="grid_8">
+       
+            <!--<ul id="#top-navigation">
+                <li class="top"><a href="#" >Home</a></li>
+                <li class="top"><a href="#" >Features</a></li>
+                <li class="top"><a href="{% url iregister %}" >Register</a></li>
+                <li class="top"><a href="{% url profileurl %}" >My Profile</a></li>
+                <li class="top"><a href="#" >Contact</a></li>
+            </ul>  -->
+            <ul id="top-navigation">
+                <li class="top"><a href="{% url dashboardurl %}" >Home</a>&nbsp;|&nbsp;</li>
+                <li class="top"><a href="{% url profileurl %}" >Profile</a>&nbsp;|&nbsp;</li>
+                <li class="top"><a href="{% url connectionhome %}" >Connections</a>&nbsp;|&nbsp;</li>                
+            </ul>
+            
+ 		<p id="account">
+        <span class="small">Hi, {{user.get_profile.fullname}}</span> &nbsp;&nbsp;
+        {% if user.get_profile.isadmin  %}
+          <a href="{% url editinstituteurl %}">  Manage Institute  </a> |
+        {% else %}
+          <a href="{% url editprofileurl %}"> Account </a> |
+        {% endif %}
+     <a href="{% url logouturl %}">Logout</a>
+ </p>
+  
+<div id="searchbox">
+<form method="GET"  action="{% url searchurl %}">
+	<input type="text" class="search_field" value="" name="query" />
+	<input type="submit" title="Search" class="search_button" value="" />
+    </form>
+</div> 
+        </div>
+        {% else %}
+        <div class="grid_8">
+        &nbsp;
+        </div>
+     {% endif %}
+	<div class="clear">&nbsp;</div>
+</div>
+
+<!--<div id="topbox">    
+{% load thumbnail %}
+  <a id="insti_logo" accesskey="1" title="{{institute.name}} Alumni Network / Home" href="{{homeurl}}">
+    <img src="{% thumbnail institute.admin.get_profile.photo 300x60 %}" alt="{{institute.name}}" />
+  </a>
+  
+ <p id="account"> 
+  {% if user.is_authenticated %}
+ 
+        <span class="small">Hi, {{user.get_profile.fullname}}</span> &nbsp;&nbsp;
+        {% if user.get_profile.isadmin  %}
+          <a href="{% url editinstituteurl %}">  Manage Institute  </a> |
+        {% else %}
+          <a href="{% url editprofileurl %}"> Account </a> |
+        {% endif %}
+     <a href="{% url logouturl %}">Logout</a>
+ 
+   
+   {% endif %}
+  </p>  
+    {% if user.is_authenticated %}
+    <ul id="#top-navigation">
+       <li><a href="{% url dashboardurl %}" class="top">Home</a></li>
+       <li><a href="{% url profileurl %}" class="top">My Profile</a></li>
+       <li><a href="{% url connectionhome %}" class="top">Connections</a></li>
+       <li><a href="{% url displaymailgroupurl %}" class="top">Inbox</a></li>
+    </ul>
+     
+    {% endif %}
+
+</div> -->
+</div>
+</div>

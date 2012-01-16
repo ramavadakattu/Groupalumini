@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block amedia %}
+
+
+    <link rel="stylesheet" type="text/css" href="/media/css/widgets.css"/>
+    <script type="text/javascript" src="/media/js/core.js"></script>
+    <script type="text/javascript" src="/admin/jsi18n/"></script>
+    <!-- form media -->
+    {{form.media}}
+    
+     {% include 'autocompletescripts.html' %}
+  
+  <script type="text/javascript" charset="utf-8">
+ 
+   window.onload = function() {     
+        
+        url = "/interesting/taglookup"
+        $("#id_tags").autocomplete(url,{dataType:'json',                                  
+                                  parse: function(data) {
+          var rows = new Array();
+          for(var i=0; i<data.length; i++){              
+              rows[i] = { data:data[i], value:data[i], result:data[i] };
+          }
+          return rows;
+      },
+       formatItem: function(data, i,max,value,term) {
+          return value;
+      },
+       multiple: true,
+       multipleSeparator: " ", 
+      })
+   }
+        
+    </script>    
+         
+    
+    
+ {% endblock %}
+
+
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+  
+      <h2> Events </h2>    
+       <p>
+        <span class="error">{{ form.non_field_errors }}</span>
+        </p>
+       
+   <form action="." method="POST" >       
+  What: <br />
+
+            <span class="error">{{form.what.errors}}</span>
+               {{form.what}}
+<br />
+                     When: <br />
+
+            <span class="errors">{{form.when.errors}}</span>
+               {{form.when}}
+               <br />
+           <p class="small">   <span class="small">  {{form.when.help_text}}</span></p>
+
+                     Starting Time :<br />
+
+           <span class="error"> {{form.starttime.errors}}</span>
+               {{form.starttime}}
+               <br />
+        <p class="small"> <span class="small">        {{form.starttime.help_text}}.</span> eg: 20:10:00</p>
+              
+
+                     Duration :<br />
+
+               <span class="error">{{form.duration.errors}}</span>
+               <span class="error">{{form.durationtag.errors}}</span>
+               {{form.duration}}
+       {{form.durationtag}}
+<br />
+                     Where :<br />
+
+            <span class="error">{{form.where.errors}}</span>
+               {{form.where}}
+               
+               <br />
+<p class="small"><span class="small"> {{form.where.help_text}}</span></p>
+     
+                     Description: <br />
+
+            <span class="error">{{form.description.errors}}</span>
+               {{form.description}}
+ <br />
+            Tags :
+            <br />
+  
+               <span class="error">{{form.tags.errors}}</span>
+               {{form.tags}}
+               <br/>
+              <p class="small"><span class="small">  All tags should be space saperated , quotes are not allowed, use hypen for multiword tags</span></p>
+
+           <!-- Send email to :<br />
+
+               <span class="error">{{form.sendemail.errors}}</span>
+               {{form.sendemail}}<br />  <a href="{% url displaymailgroupurl %}" >
+ <span class="small">  Create new mail group to send this to a targeted group.</span> </a> --><br />
+
+                <input type="submit" class="form_button"  value= {% if editmode %}   "Edit Event"   {% else %}  "Create Event" {% endif %} />
+ 
+     </form>         
+            
+     </div>
+</div>
+{% endblock %}

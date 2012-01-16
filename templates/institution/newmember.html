@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Alumclub will you help to maintain the Alumni effectively
+
+
+{% endblock %}
+
+ 
+ {% block  amedia %}
+ 
+
+   <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}scripts/autocomplete/jquery.autocomplete.css"> 
+  <!--  <link type="text/css" rel="stylesheet" href="{{ MEDIA_URL }}scripts/autocomplete/thickbox.css">  -->
+   
+     
+           <script type="text/javascript" src="{{ MEDIA_URL }}scripts/autocomplete/jquery.bgiframe.min.js"></script>
+ <script type="text/javascript" src="{{ MEDIA_URL }}scripts/autocomplete/jquery.ajaxQueue.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}scripts/autocomplete/thickbox-compressed.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}scripts/autocomplete/jquery.autocomplete.js"></script>
+
+
+
+
+
+<!--
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key={{map_api_key}}" type="text/javascript"></script>
+-->
+
+
+ <script type="text/javascript" src="{{ MEDIA_URL }}scripts/newmember.js"></script>
+ 
+ <script type="text/javascript" charset="utf-8">
+ 
+  
+  
+ 
+   var map =[ 
+    {% for department in institute.department_set.all %}
+          [{{department.id}}                   
+             {% for course in department.course_set.all %}
+                      ,{{course.id}},"{{course.name}}" 
+             {% endfor %}
+          ],  
+    {% endfor %}
+    ];
+   
+   var industrymap =[ 
+    {% for industry in industries %}
+          [{{industry.id}}                   
+             {% for market in industry.market_set.all %}
+                      ,{{market.id}},"{{market.name}}" 
+             {% endfor %}
+          ],  
+    {% endfor %}
+    ];
+  
+  
+   
+   window.onload = function() {    
+        
+        $("#sdepartment").change(selectedDepartment);       
+        selectedDepartment();      
+     
+   }
+   
+   
+   
+   function selectedDepartment()
+   {
+    
+     selectedindex =  $("#sdepartment").val();   
+     $.each(map,function() {
+     
+    
+     if ( this[0] == selectedindex )
+     {         
+          $('#id_course').find('option').remove();
+         courselength = this.length -1;
+         index = 1;
+        
+         while ( index <= courselength)
+         {
+           value = this[index];
+           text = this[index+1];
+           index = index +2;          
+           $("#id_course").append($('<option></option>').val(value).html(text));                                  
+         }                 
+     }    
+    
+   })
+           
+           
+   }   
+ 
+ </script>
+ 
+ 
+ {% endblock %}
+
+{% block content %}
+
+<div style="padding:30px 40px 0 40px;">
+<fieldset>
+<legend style="font-weight:bold; color:#900">Account Type</legend> 
+<input type="radio" style="width:20px;" name="accounttype" value="faculty"  {% ifequal form_default 'faculty' %} checked="yes"  {% endifequal %} > Faculty  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="radio" style="width:20px;" name="accounttype" value="student"  {% ifequal form_default 'student' %} checked="yes"  {% endifequal %} > Alumni  
+
+</fieldset>
+
+<div id="facultybox">
+
+
+<form id="facultyform"  action="."  name="nfacultyform"  method="POST" class="long" >
+ 
+
+<p> <span class="error">{{sform.non_field_errors}}</span> </p>
+<fieldset>
+<legend>Personal Details</legend> 
+<label for="id_email">Email:</label><br />
+  <span class="error"> {{ fform.email.errors }}  </span>              
+                {{ fform.email }}<br />
+<label for="id_password">Password:</label><br />
+
+<span class="error">{{fform.password.errors}}</span>
+{{fform.password}}<br />
+
+<label for="id_retype_password">Retype Password:</label><br />
+<span class="error">{{fform.retype_password.errors}}</span>
+{{fform.retype_password}}<br />
+
+
+<label for="id_name">Name:</label><br />
+<span class="error">{{fform.name.errors}}</span>
+{{fform.name}}
+
+</fieldset>
+<br />
+<fieldset>
+<legend>Insitute Details</legend>
+<label for="id_institutename">Institute Name:</label><br />
+
+<span class="error">{{fform.institutename.errors}}</span>
+{{fform.institutename}}<br />
+<label for="id_fdepartment">Department:</label><br />
+
+<span class="error">{{fform.department.errors}}</span>
+{{fform.department}}
+</fieldset><br />
+     <input type="hidden" value="{{form_default}}" name="whichform"/>
+     <input type="submit" class="form_button" value="Register"/>   
+     
+    </form>
+
+</div>
+
+
+
+
+
+
+
+<div id="studentbox">
+ 
+<form id="studentform" name="nstudentform" action="."  method="POST" class="long" >  
+
+  <p> <span class="error">{{sform.non_field_errors}}</span> </p>
+<fieldset>
+<legend> Personal Details</legend>
+<label for="id_email">Email:</label><br />
+  <span class="error"> {{ sform.email.errors }} </span>               
+                {{ sform.email }}<br />
+<label for="id_password">Password:</label><br />
+
+<span class="error">{{sform.password.errors}}</span>
+{{sform.password}} <br/>
+
+<label for="id_retype_password">Retype Password:</label><br />
+
+<span class="error">{{sform.retype_password.errors}}</span>
+{{sform.retype_password}}
+<br />
+<label for="id_name">Name:</label><br />
+<span class="error">{{sform.name.errors}}</span>
+{{sform.name}}
+
+</fieldset>
+   
+  <br />
+<fieldset>
+<legend>Institute Details</legend>
+<label for="id_institutename">Institute Name:</label><br />
+
+<span class="error">{{sform.institutename.errors}}</span>
+{{sform.institutename}}<br />
+<label for="id_fromyear">From:</label><br />
+    
+<span class="error">{{sform.fromyear.errors}}</span>
+{{sform.fromyear}}<br />
+<label for="id_toyear">To:</label><br />
+
+    
+<span class="error">{{sform.toyear.errors}}</span>
+{{sform.toyear}}<br/>
+<span class="small">{{sform.toyear.help_text|safe}}</span>
+<br /><br />
+<label for="id_sdepartment">Department:</label><br />
+
+<span class="error">{{sform.department.errors}}</span>
+{{sform.department}}<br />
+<label for="id_scourse">Course:</label><br />
+
+<span class="error">{{sform.course.errors}}</span>
+{{sform.course}}
+<br />
+<label for="id_degree">Degree:</label><br />
+
+<span class="error">{{sform.degree.errors}}</span>
+{{sform.degree}}
+<br />
+    
+    <input type="hidden" value="{{form_default}}" name="whichform"/>
+</fieldset> <br />
+    
+    <input type="submit" class="form_button" value="Register"/>    </td>
+
+  </form>
+
+ </div>
+</div>
+
+
+{% endblock %}
+
+ 
+
+
+
+

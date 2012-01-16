@@ -1,0 +1,15 @@
+
+{% load humanize %}
+{{obj.createddate|naturalday}}  by  <a href="{{obj.user.get_profile.get_absolute_url}}">  {{obj.user.get_profile.fullname}}</a>   
+
+{{obj.content|safe}}
+
+{% if obj.user.get_profile.isFaculty %}
+
+<a href="{% url singlepaperurl obj.id %}">  {{obj.comment_set.all.count}} comments </a>
+
+{% else %}
+
+<a href="{% url singleposturl obj.id %}">  {{obj.comment_set.all.count}} comments </a>
+
+{% endif %}

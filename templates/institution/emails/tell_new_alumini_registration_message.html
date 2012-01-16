@@ -1,0 +1,15 @@
+Details :
+
+Institute Name : {{institute.name}}  <br/>
+
+Full name : {{user.get_profile.fullname}}  <br/>
+
+Faculty/Student :
+
+{% if user.get_profile.isStudent %}
+ Student
+{% else %}
+Faculty
+{% endif %}
+
+Email : {{user.email}}

@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block  amedia %}
+   <script type="text/javascript" src="{{ MEDIA_URL }}scripts/approve.js"></script> 
+{% endblock %}
+
+
+{% block content %}
+
+
+  {% load thumbnail %} 
+ <div class="grid_3 alpha" >
+	{% include 'institution/account_side_bar.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>    
+     <h2 style="text-transform:capitalize">{{entity}}</h2>
+   
+     {% ifequal entity 'student' %}
+     
+     {% if toapprove %}
+              <h2> Student </h2>
+       
+       
+    Name :     {{toapprove.profile.fullname}} <br/>
+    Email : {{toapprove.profile.user.email}} <br/>
+    Website :  <a href="{{toapprove.profile.personalsite}}"> {{toapprove.profile.personalsite}}  </a> <br/>
+    Course : {{toapprove.course}}<br />
+    From Year : {{si.fromyear}}<br />
+    To Year : {{si.toyear}}<br />
+    
+    {% ifequal toapprove.whatiamdoing  'student' %}
+      Student
+    
+    {% endifequal %}
+    
+    {% ifequal toapprove.whatiamdoing  'lwork' %}
+      Old Student Looking for work
+    
+    {% endifequal %}
+    
+        {% ifequal toapprove.whatiamdoing  'owner' %}
+      Owner at  {{toapprove.company}}  {{toapprove.industry}}
+    
+    {% endifequal %}
+    
+        {% ifequal toapprove.whatiamdoing  'freelance' %}
+         Working independently  Industry: {{toapprove.industry}}
+           
+    {% endifequal %}
+        {% ifequal toapprove.whatiamdoing  'employee' %}
+      Employee :
+      {{toapprove.title}}          {{toapprove.company}}  {{toapprove.industry}}
+    
+    {% endifequal %}
+
+
+
+    
+    <br/>
+    <input type="button" class="button" value="Approve" onclick="approve(1,{{toapprove.id}},'student')" id="approvebutton"/>
+    
+    <input type="button" class="button" value="Reject" onclick="approve(0,{{toapprove.id}},'student')"  id="rejectbutton"/>  <br/>
+    
+    
+    <div class="action_button"><a href="{% url approvememberurl %}"> Next  Member</a></div>
+        
+        {% else %}
+         No more members to Approve.
+        
+        {% endif %}
+             
+             
+     {% endifequal %}
+    
+   
+   
+   {% ifequal entity 'faculty' %}
+    <h2> Faculty </h2>
+       
+       
+    Name :     {{toapprove.profile.fullname}} <br/>
+    email : {{toapprove.profile.user.email}}
+    Website :  <a href="{{toapprove.profile.personalsite}}"> {{toapprove.profile.personalsite}}  </a> <br/>
+    Subjects :  {{fi.subjects}} <br/>
+    designation :  {{fi.designation}} <br/>
+    Specialization : {{fi.specialization}} <br/>
+    Year worked :
+    <br/>
+    <input type="button" class="button" value="Approve" onclick="approve(1,{{toapprove.id}},'faculty')" id="approvebutton"/>
+    
+    <input type="button" class="button" value="Reject" onclick="approve(0,{{toapprove.id}},'faculty')"  id="rejectbutton"/>  <br/>
+    
+    
+    <a href="{% url approvememberurl %}"> Next  Member</a>
+       
+       
+       
+   {% endifequal %}
+  </div>
+  </div>
+ </div> 
+  
+{% endblock %}
+
+ 
+
+
+
+

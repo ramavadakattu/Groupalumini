@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{% block  amedia %}
+  <!-- <script type="text/javascript" src="{{ MEDIA_URL }}scripts/newmember.js"></script>  -->
+{% endblock %}
+
+
+{% block content %}
+
+<div id="bodybox">
+  
+  {% load thumbnail %} 
+<div class="grid_3 alpha" >
+	{% include 'institution/account_side_bar.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div> 
+  
+  {% if  user.get_profile.isadmin %}
+   <h2>Change Logo</h2>
+    Present Logo :<br /><br />
+ 
+  <img src="{% thumbnail institute.admin.get_profile.photo 300x300 %}" />
+ 
+  {% else  %}
+   <h2>Change Photo</h2>
+  Present Photo :<br /><br />
+  
+    
+       <img src="{% thumbnail  user.get_profile.getImage  80x80 %}" />
+    
+   
+  
+  
+  {% endif %}
+  <br/><br />
+  
+  
+    
+    <form action="."  method="POST" enctype="multipart/form-data" >
+        
+        
+    {{form}}    <br /><br />
+    <input type="submit" value="Upload" class="form_button" />
+     
+    </form>  
+      </div>
+  </div>
+  </div>
+  </div>
+  
+{% endblock %}
+
+
+
+
+

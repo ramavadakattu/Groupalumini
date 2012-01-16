@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{% block  amedia %}
+   
+   {% load comparison %}
+   
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1', {'packages':['piechart']});
+      
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+      
+      // Callback that creates and populates a data table, 
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+      // Create our data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Market');
+        data.addColumn('number', 'Total number of people');
+        data.addRows(
+                    [                     
+             {% for mstat in marketstats %}
+             {% if_less_or_equal forloop.counter 5 %}
+                  ["{{mstat.market__name}}",{{mstat.market_count}}],
+             {% endif_less_or_equal %}
+             {% endfor %}
+          
+        ]);
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chartbox'));
+        chart.draw(data, {width: 600, height: 240, is3D: true, title: 'Market distribution',legendFontSize:12});
+      }
+    </script>   
+   
+     
+{% endblock %}
+
+
+{% block content %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+
+    <div class="breadcrum">  <a href="{% url displaystathomeurl %}"> Statistics Home </a>   >>  <a href="{% url industrystatsurl %}"> industry stats </a></div>
+<h2> Market wise stats for industry : <span class="highlight"> {{industry.name}}</span> </h2>
+
+
+
+<br/> <br/>
+  
+{% for mstat in marketstats  %}
+  
+      {{mstat.market__name}} ({{mstat.market_count}})
+     
+      <br/>
+ 
+{% endfor %}
+
+
+
+
+<div id="chartbox">
+      
+      
+      
+</div>      
+  </div>
+  
+</div>
+
+{% endblock %}
+
+
+
+

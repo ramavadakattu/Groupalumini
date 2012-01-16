@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block amedia %}
+
+
+<link rel="stylesheet" type="text/css" href="/media/css/widgets.css"/>
+    <script type="text/javascript" src="/media/js/core.js"></script>
+    <script type="text/javascript" src="/admin/jsi18n/"></script>
+ {{form.media}}
+{% endblock %}
+
+
+
+{% block content %}
+
+   
+
+{% load thumbnail %}
+
+  <div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+         
+     <h2> Funds </h2>
+     
+     
+     {% if editmode %}
+      <h3> Edit Fund </h3>
+            
+     {% else %}
+           <h3> Add New Fund </h3>
+      {% endif %}      
+     
+         
+         <form action="." method="POST">
+          
+         <span>   Fund Name  :   </span> <br/>
+         <span class="errors">{{form.fundname.errors}}</span>
+         {{form.fundname}}
+          <br/>
+         <span>   Total amount to raise :   </span> <br/>
+         <span class="errors">{{form.totalamount.errors}}</span>
+         {{form.totalamount}} USD
+         <span> (Total amount should be in US  dollars) </span>
+          <br/>
+         <span> Ending Date :  </span> <br/>
+         <span class="errors">{{form.deadline.errors}}</span>
+         {{form.deadline}}
+         <br/>
+         <span>   Description:  </span> <br/>
+         <span class="errors">{{form.description.errors}}</span>
+         {{form.description}}
+         
+         <br/>
+         <input type="submit" class="button" 
+                {% if editmode %}
+                value="Editing Done........"                
+                {% else %}
+                value="Add new Fund" 
+                {% endif %}/> 
+       
+       </form>
+       
+     </div>  
+       
+     
+     </div>
+
+{% endblock %}
+

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block amedia %}
+
+   <script type="text/javascript" src="{{ MEDIA_URL }}scripts/funds/funds.js"></script>
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+   
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+    
+      <h2> Donations to <span class="highlight">{{fund.fundname}}</span> </h2>
+            
+       Review The payment <br/>
+       
+       <form action="." method="POST" name="confirmform" >
+            {{amount}} {{currency}}   donated to institute {{fund.fundname}}     <br/>
+            <input type="hidden" value="{{amount}}" name="amount" />
+          <input type="hidden" value="{{token}}" name="token" />
+          <input type="hidden" value="{{payerid}}" name="payerid" />          
+       <input type="submit" class="button"  value="Confirm Payment" />       
+       </form>
+       </div>
+</div>
+
+{% endblock %}
+
+ 

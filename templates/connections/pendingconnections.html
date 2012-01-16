@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{% block  amedia %}
+   
+    
+    <script type="text/javascript" src="{{ MEDIA_URL }}scripts/connections/connections.js"></script>
+     
+     
+{% endblock %}
+
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+      
+      <h2>Connections</h2>
+      
+      <div class="tabborder">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{% url pendingconnectionurl %}" class="tablink tabcurrent">Pending Connections</a>   
+        <a href="{% url connectionhome %}" class="tablink" >Connections</a> 
+      </div>
+        
+      <!--<div class="submenu">
+      <a href="{% url pendingconnectionurl %}" class="large_link">Pending Connections</a>&nbsp;/&nbsp;
+      <a href="{% url connectionhome %}" class="large_link">Connections</a> 
+      </div> -->
+      
+      
+      <span id="friendmessage">  </span> 
+       {% for f,conid in friends %}
+       
+       <div id="friendbox{{conid}}">
+            
+            
+             
+             
+             <img src="{% thumbnail  f.getImage  40x40 %}" /> 
+              <a href="{{f.get_absolute_url}}" class="blue_hl">   {{f.fullname}}  </a><br/>
+             
+             
+            <span id="friendmessage{{conid}}">  </span> 
+            <a href="javascript:void(0)" class="lite_button" onclick="accept({{conid}})">Accept</a>&nbsp;/&nbsp;<a href="javascript:void(0)" onclick="reject({{conid}})">Decline</a>
+            
+       </div>     
+      {% endfor %}
+      
+</div>
+</div>
+{% endblock %}
+
+ 
+
+
+
+

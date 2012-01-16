@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{% block  amedia %}
+  <script type="text/javascript" src="{{ MEDIA_URL }}scripts/voting.js"></script>
+  
+  <link media="screen" href="{{ MEDIA_URL }}css/askhome.css" type="text/css" rel="stylesheet"/>
+  <link media="screen" href="{{ MEDIA_URL }}css/askquestion.css" type="text/css" rel="stylesheet"/>
+  
+  
+   
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+
+    <div id="ask">
+      <h2>Discussion</h2>      
+      <div class="action_button"><a href="{% url askquestionurl %}" > Ask a Question </a></div>
+    </div>
+       <div class="askidqcontainer01">
+        {% for question in questions_list %}
+        
+             <div class="askqvholder">  
+                  <div    class="votingbox">
+               {% load voting_tags %}
+               {% vote_by_user user on question as vote %}               
+            {% if vote %}               
+                  {% ifequal vote.vote   1 %}            
+                     <div class="askidqratingup"><span id="qupvote{{question.id}}"><a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'clear','up')"><img src="{{ MEDIA_URL }}images/vote-arrow-up-on.png" alt="vote up" /></a></span></div> 
+                    vote<br />
+                     <div class="askidqratingdown"><span id="qdownvote{{question.id}}"><a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'down','down')"><img src="{{ MEDIA_URL }}images/vote-arrow-down.png" alt="vote down"  /></a></span></div>      
+                  </div>
+            {% endifequal %}
+         
+            {% ifequal vote.vote   -1 %}
+             <div class="arrow">
+                  <div class="askidqratingup"><span id="qupvote{{question.id}}"><a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'up','up')"><img src="{{ MEDIA_URL }}images/vote-arrow-up.png" alt="vote up"  /></a></span></div>  
+                  vote<br />
+                  <div class="askidqratingdown"><span id="qdownvote{{question.id}}"><a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'clear','down')"><img src="{{ MEDIA_URL }}images/vote-arrow-down-on.png" alt="vote down"  /></a></span></div>   
+            </div>
+            {% endifequal %}
+            
+            {% ifequal vote.vote   0 %}
+             <div class="arrow">
+               <div class="askidqratingup"><span id="qupvote{{question.id}}">
+                   <a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'up','up')">  
+                   <img src="{{ MEDIA_URL }}images/vote-arrow-up.png" alt="vote up"  /></a></span>
+               </div>  
+               vote<br /> 
+               <div class="askidqratingdown"><span id="qdownvote{{question.id}}">
+                   <a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'down','down')">   
+                    <img src="{{ MEDIA_URL }}images/vote-arrow-down.png" alt="vote down"   />
+                   </a></span>
+               </div>                 
+             </div>
+            {% endifequal %}            
+         
+         {% else %}   
+               <div class="arrow">
+                     <div class="askidqratingup"><span id="qupvote{{question.id}}"><a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'up','up')">  <img src="{{ MEDIA_URL }}images/vote-arrow-up.png" alt="vote up" /></a></span></div>
+                    vote<br />
+                     <div class="askidqratingdown"><span id="qdownvote{{question.id}}"><a href="javascript:void(0)"  onclick="putVote('Question',{{question.id}},'down','down')">   <img src="{{ MEDIA_URL }}images/vote-arrow-down.png" alt="vote down"  /></a></span></div>  
+               </div>
+         {% endif %}
+         
+         {% score_for_object question as score %}                  
+                <div id="voting"><span id="qscore{{question.id}}" class="highlight">{{score.score}}</span></div>        
+         
+             
+
+                <div class="askqanscontainer02">            
+                   <div class="askidq"><a href="{{question.get_absolute_url}}">{{question.subject}}</a></div>
+                         <div class="askidqdlcontainer">                       
+                            <div class="askidqdl"><span class="small">asked {{question.createddate|timesince}} ago by</span> <span class="blue_hl">{{question.user.get_profile.fullname }}</span></div>
+                         </div>
+                </div>
+            </div>
+          </div>  <!--  end of askvholder  -->
+             
+               
+        {% endfor %}
+
+     <div class="pagenation">
+          {% if page_obj.has_previous %}
+                   <a href="{% url askaluminiurl %}?page={{page_obj.previous_page_number}}" style="float:left">&laquo; Previous</a>
+         {% endif %}          
+                &nbsp;&nbsp;&nbsp;&nbsp;
+         
+          {% if page_obj.has_next %}
+                  <a href="{% url askaluminiurl %}?page={{page_obj.next_page_number}}" style="float:right">Next &raquo;</a>
+         {% endif %}
+	</div>
+     
+    
+     </div>
+
+</div>
+</div>
+{% endblock %}
+
+
+
+
+
+

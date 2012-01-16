@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+   <script type="text/javascript" src="{{ MEDIA_URL }}scripts/events/events.js"></script>        
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+     
+        <h2> Events </h2>
+                    <div id="posteventbox">                     
+                          <div class="action_button"> <a href="{% url createeventurl %}">Create Event</a>  </div>                   
+                     </div>
+       
+       <p class="blue_hl large"> Event Details </p>
+        What : 
+       <span class="highlight">{{event.what}}</span>
+        {% load humanize %}<br />
+        When : 
+        <span class="highlight">{{event.when|naturalday}}  at {{event.starttime|time:"h:i a"}}</span><br />
+        Duratin : 
+         <span class="highlight">{{event.duration}}  {{event.durationtag}}</span><br />
+         Where : 
+        <span class="highlight">{{event.where}}  </span><br /><br />
+        
+         {{event.getNDescription}}<br /><br />
+            Tags :<span class="blue_hl">
+         {% for tag in event.tags %}
+              {{tag.name}}
+         {% endfor %}
+       </span><br />
+       <br/><p class="dotline"></p>
+       <br />
+     Total number of people who are attending:  <span id="totalattendancecount" class="highlight large"> {{event.peopleattending.count}}  </span><br />
+     <br />
+  <p id="attendingbox">
+     
+    Your status : 
+     {% if attending %}
+           
+            <a href="javascript:void(0)" onclick="notedown({{event.id}},0)" class="large_link"> I'm not Attending the Event </a>
+      {% else %}
+           <a href="javascript:void(0)" onclick="notedown({{event.id}},1)" class="large_link"> I'm Attending the Event </a> 
+          
+      {% endif %}     
+       <span class="small">(click to change)</span>  
+  </p>
+  
+  <br />
+  <p class="blue_hl"> Event is being attended by: </p>
+  <p id ="userattendingbox">            
+            {% for user in event.peopleattending.all %}
+               <span >  <a href="{{user.get_profile.get_absolute_url}}" >{{user.get_profile.fullname}}</a> </span>,            
+            {% endfor %}   
+   </p>
+  
+  <br />
+  {% ifequal event.user.id user.id  %}
+   <a href="{% url editeventurl event.id %}">Edit </a>&nbsp;/&nbsp;
+  {% endifequal %}
+    
+  {% ifequal event.user.id user.id  %}
+    <a href="{% url deleteeventurl event.id %}">Delete</a>  
+  {% endifequal %}
+  
+  <br/>
+  
+ </div>
+</div>
+{% endblock %}

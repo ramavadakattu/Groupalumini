@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Find intersting stuff on your Alumni Network
+
+
+{% endblock %}
+
+
+{% block amedia %}
+
+
+ <script type="text/javascript" src="{{ MEDIA_URL }}scripts/interesting/tags.js"></script>
+ 
+  {% include 'autocompletescripts.html' %}
+  
+  <script type="text/javascript" charset="utf-8">
+ 
+   window.onload = function() {    
+        
+        url = "/interesting/taglookup"
+        $("#id_tags").autocomplete(url,{dataType:'json',                                  
+                                  parse: function(data) {
+          var rows = new Array();
+          for(var i=0; i<data.length; i++){              
+              rows[i] = { data:data[i], value:data[i], result:data[i] };
+          }
+          return rows;
+      },
+       formatItem: function(data, i,max,value,term) {
+          return value;
+      },
+       multiple: true,
+       multipleSeparator: " ", 
+      })
+   }
+        
+    </script>    
+
+
+
+{% endblock %}
+
+
+
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+
+{% load alumclub_tags %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+     
+     
+  <h2>Personalize</h2>
+  <p class="blue_hl"> Fill the below box with your interest based tags </p>
+
+  <input type="text" value="{{user.get_profile.getTags}}" name="tags" id="id_tags" size="50"/><br />
+  <span id="errormessage" class="error" > 
+</span> <br />
+  <span class="small">
+  Then we will inform you about important discussions , jobs & events that might interest you and the right people to network with.</span> <br/>
+ <span class="small"> Note: All tags should be space saperated , quotes are not allowed, use hypen for multiword tags</span> <br/>
+  
+  <input type="button" class="form_button"" value="Submit" id="submittags"/>
+  
+  
+  <p class="dotline"></p>
+  <br />
+<!--  <ul class="standard">
+ 
+  
+  <li > <a href="{% url interestingpeopleurl %}" class="large_link">  People who share a similar interest </a>  </li>
+  <li > <a href="{% url interestingcontenturl %}" class="large_link">  Content that might interest you </a>  </li>
+  
+  </ul> -->
+     <div class="tabborder">
+  		<a href="{% url interestingpeopleurl %}" class="tablink tabcurrent" >People who share a similar interest</a>   
+        <a href="{% url interestingcontenturl %}" class="tablink" >Content that might interest you</a> 
+     </div>
+        
+  {% ifequal itag1  'people' %}        
+         {% if empty %}
+             Sorry, we were unable to find people who have interests similar to yours. 
+              
+         {% else %}
+              {% for friend in friends %}
+             
+              
+              <img src="{% thumbnail  friend.profile.getImage  40x40 %}" /> <br />
+                          <a href="{{friend.profile.get_absolute_url}}">   {{friend.profile.fullname}}  </a><br/>
+                         
+                         {% get_short_profile institute friend %}
+              
+              {% endfor %}
+              
+              
+               {% for friend in ffriends %}
+             
+              
+                <img src="{% thumbnail  friend.profile.getImage  40x40 %}" /> <br />
+                          <a href="{{friend.profile.get_absolute_url}}">   {{friend.profile.fullname}}  </a><br/>
+                         
+                         {% get_short_profile institute friend %}
+              
+              {% endfor %}
+          
+          
+              
+          
+          {% endif %}
+   {% endifequal %}      
+      
+  {% ifequal itag1  'content' %}        
+  
+ <ul  class="standard" style="margin-left:40px;">
+    <li>  <a href="{% url interestingjobsurl %}"> Jobs </a> </li>
+    <li>  <a href="{% url interestingdiscussurl %}">  Discussions </a> </li>
+    <li> <a href="{% url interestingeventsurl %}"> Events </a> </li>
+     <li> <a href="{% url interestingresearchurl  %}"> Research / Opinion  </a> </li>
+  </ul>
+  
+  <br/>
+  <br/>
+  <br/>
+ 
+  
+           {% ifequal itag2  'questions' %}
+            <span class="blue_hl large"> Discussions </span><br />
+           <ol class="comments-list">
+                   {% for question in questions %} 
+                    <li>
+					<div class="comments-author">  
+                    	
+                      <img src="{% thumbnail  question.user.get_profile.getImage  40x40 %}" /> <br />
+              <a href="{{question.user.get_profile.get_absolute_url}}">   {{question.user.get_profile.fullname}}  </a><br />
+              {% get_short_profile institute question.user %} 
+              </div>
+              <div class="comments-text" style="background:#fff; border:0px;border-left:1px solid #DDD;">
+<p>                     <a href="{% url displayquestionurl question.id %}" class="large">   {{question.subject}} </a>
+                     
+                     </p>
+                 </div>    
+              </li>
+                {% endfor %}
+                  </ol>
+           
+                    
+           {% endifequal %}
+  
+           {% ifequal itag2  'jobs' %}
+            <span class="blue_hl large"> Jobs  </span><br />
+            <ol class="comments-list">
+                    {% for job in jobs %}
+                    	<li>
+					<div class="comments-author"> 
+                    	<a href="{{job.postedby.get_profile.get_absolute_url}}">   {{job.postedby.get_profile.fullname}}  </a><br />
+               {% get_short_profile institute job.postedby  %}<br />
+               </div>
+               <div class="comments-text" style="background:#fff; border:0px;border-left:1px solid #DDD;">
+                         <a href="{% url viewjoburl job.id %}">    {{job.title}}  
+                             -- {{job.location}} </a>
+                </div>  </li>
+                    {% endfor %}
+                    </ol>
+                    
+           {% endifequal %}
+  
+  
+            {% ifequal itag2  'events' %}
+             <span class="blue_hl large"> Events </span><br />
+            <ol class="comments-list">
+                    {% for event in events %}
+                    	<li>
+					<div class="comments-author"> 
+                    	 <img src="{% thumbnail  event.user.get_profile.getImage  40x40 %}" /> <br />
+              <a href="{{event.user.get_profile.get_absolute_url}}">   {{event.user.get_profile.fullname}}  </a>
+               {% get_short_profile institute event.user %}<br />
+               </div><div class="comments-text" style="background:#fff; border:0px;border-left:1px solid #DDD;">
+                          <a href="{% url vieweventurl event.id %}">    {{event.what}}
+                            -- {{event.where}} </a>
+                </div></li>
+                    {% endfor %}
+                 </ol>   
+                    
+                      
+           {% endifequal %}
+           
+           
+           {% ifequal itag2  'papers' %}
+           <span class="blue_hl large">  Research Papers </span><br />
+           <ol class="comments-list">
+                         {% for paper in papers %}
+                            <li>
+					<div class="comments-author">
+                             <img src="{% thumbnail  paper.user.get_profile.getImage  40x40 %}" />   <br />
+                         
+                     <a href="{{paper.user.get_profile.get_absolute_url}}">{{paper.user.get_profile.fullname}}  </a><br />
+                     {% get_short_profile institute paper.user %}
+                       </div><div class="comments-text" style="background:#fff; border:0px;border-left:1px solid #DDD;">  
+                          {{paper.headline}} 
+                          </div></li>
+                         {% endfor %}
+           </ol>
+           
+           {% endifequal %}
+  
+  
+  
+  
+  
+  {% endifequal %}
+  
+</div>
+  
+  
+   
+   </div> 
+     
+     
+     
+     
+    
+
+
+{% endblock %}
+
+
+
+
+

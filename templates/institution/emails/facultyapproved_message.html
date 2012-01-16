@@ -1,0 +1,9 @@
+<h2> Faculty </h2>
+
+{% ifequal approved 1 %}
+  you membership has been {{institute.name}}  approved by admin
+{% endifequal %}
+
+{% ifequal approved -1 %}
+  you membership has been {{institute.name}}  rejected by admin
+{% endifequal %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Departments Add Department
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+  {% load thumbnail %}
+  
+  <div class="grid_3 alpha" >
+	{% include 'institution/account_side_bar.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>  
+  <h2> Courses under each Department </h2>
+  
+  {% for department in departments %}
+   <span class="blue_hl"> {{department.name}} </span>
+     {% for course in department.course_set.all %}
+          {{course.name}}
+          
+           {% if course.introduced %}
+                {{course.introduced}}
+           {% endif %}
+           
+           <a href="{% url editcourseurl course.id %}"> Edit</a>&nbsp;/&nbsp;
+           <a href="{% url deletecourseurl course.id %}">Delete</a>
+           
+           <br/>
+      {% endfor %}      
+   {% endfor %}   
+  
+  
+  <br/>
+  <br/>
+  
+  <div class="action_button"><a href="{% url addcourseurl %}">Add Course</a></div>
+  </div>
+  </div>
+</div>
+ 
+{% endblock %}
+
+ 
+
+
+
+

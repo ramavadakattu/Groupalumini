@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block amedia %}
+
+
+   <script type="text/javascript" src="{{ MEDIA_URL }}scripts/funds/funds.js"></script>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+   
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+
+    <h2> Donations to: <span class="highlight">{{fund.fundname}}</span> </h2>
+    
+    
+    <form action="{% url acceptpaymenturl fund.id%}"  method="POST" name="enteramountform">
+            Enter the amount which you want to donate to {{fund.fundname}} : <br/>
+            <input type="text"  value="" name="amount" /> USD  , <br/>
+            <input type="submit" class="button" value="Proceed to Paypal"/>
+    </form>
+    
+    
+   </div>
+   </div>
+{% endblock %}
+
+    

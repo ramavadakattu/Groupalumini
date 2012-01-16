@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{% block  amedia %}
+ <script type="text/javascript" src="{{ MEDIA_URL }}scripts/contacts.js"></script>
+   
+{% endblock %}
+
+
+
+{% block content %}
+
+<h2> Fetch Contacts </h2>
+
+<form action="." method="POST" name="contactserviceform">
+    <input type="checkbox" name="service"  value="gmail"/> Gmail <br/>
+    <input type="checkbox" name="service"  value="yahoo"/> Yahoo  
+    
+</form>    
+
+
+
+      
+{% endblock %}      
+     

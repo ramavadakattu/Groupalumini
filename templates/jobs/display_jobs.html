@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+     
+            <h2> Jobs Board</h2>
+            <div id="postjobbox">
+        
+           <div class="action_button"><a href="{% url postjoburl %}" > Post a new Job  </a></div>
+        
+        </div><br />
+       <ul>
+            {% for job in job_list %}
+            <li class="starlist">
+                 <a href="{% url viewjoburl job.id %}" class="noul">{{job.title}}
+		 
+		 {% if job.location %}
+		 ({{job.location}})
+		 {% endif %}
+		 
+		 
+		 </a>  | 
+                    <span class="small">posted by  </span>                  
+                    
+		    {% if job.postedby %}
+                       <a href="{{job.postedby.get_profile.get_absolute_url}}" class="noul">
+		     {% else %}
+		        Alumclub admin
+	             {% endif %}  		
+                    
+                     <!--<img src="{% thumbnail  job.postedby.get_profile.getImage  40x40 %}" /> -->
+                    {{job.postedby.get_profile.fullname}} </a>
+                             
+                 </li>
+            {% endfor %}
+            </ul>
+        <br />
+        <div class="pagenation">
+         {% if page_obj.has_previous %}
+                   <a href="{% url displayjoburl %}?page={{page_obj.previous_page_number}}" style="float:left">&laquo; Previous</a>
+         {% endif %}          
+        
+          {% if page_obj.has_next %}
+                  <a href="{% url displayjoburl %}?page={{page_obj.next_page_number}}" style="float:right">Next &raquo;</a>
+         {% endif %}
+        
+	</div>         
+       <br />
+       
+       
+       </div>
+       </div>
+
+{% endblock %}

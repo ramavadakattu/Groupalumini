@@ -1,0 +1,40 @@
+
+  
+        {% if user.get_profile.isFaculty %}
+        <ul id="left-navigation" style="height:585px;">
+         
+         {% else %}
+          <ul id="left-navigation" >
+         {% endif %}
+         
+        {% if user.is_authenticated %}
+        
+        <li class="discuss"><a href="{% url askaluminiurl %}">Discuss<span>pose a query to your peers</span></a></li>
+       <!-- <li class="search"><a href="{% url searchurl %}">Search Alumni<span>by name or company</span></a></li> -->
+        <li class="stats"><a href="{% url displaystathomeurl  %}">Alumni Stats<span>by Industry, Dept., etc. </span></a></li>
+        <li class="locate"> <a href="{% url locateurl %}">Locate Alumni<span>geographically</span> </a> </li>
+        <li class="jobs"><a href="{% url displayjoburl %}">Jobs<span>jobs posted by alumni</span></a></li>
+      <!--  <li class="personalize"><a href="{% url interestinghome %}">Personalize<span>find interesting stuff</span></a></li> -->
+        <li class="events"><a href="{% url eventhomeurl %}">Events Calender<span>reunions & interest groups</span></a></li>
+        <!-- <li class="donate"><a href="{% url displayfundsurl %}">Donate<span>view all funding projects</span></a></li>
+        -->
+       
+        
+        {% if user.get_profile.isadmin %}
+            <li class="news"><a href="{% url newsletterurl %}">Newsletter<span>official monthly release</span></a></li>
+        {% endif %}
+        <!--<li class="invite"><a href="{% url invitehomeurl %}">Invite your Friends<span>from your google/yahoo accounts</span></a></li>  -->
+        <!--<li class="groups"><a href="{% url displaymailgroupurl %}">Mail Groups<span>create targeted mailing groups</span></a></li> -->
+        <!--
+        {% if user.get_profile.isFaculty %}
+            <li class="opinion"><a href="{% url facultyresearchurl  user.get_profile.fullname|slugify %}">Opinion/Research<span>have your say</span></a></li>
+        {% endif %}
+        
+        {% if user.get_profile.isStudent %}
+            <li class="opinion"><a href="{% url facultyresearchurl  user.get_profile.fullname|slugify %}">Opinion<span>have your say</span></a></li>        
+        {% endif %}
+        -->
+        
+        {% endif %}
+    </ul>
+    

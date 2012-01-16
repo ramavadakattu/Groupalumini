@@ -1,0 +1,40 @@
+{% extends "home.html" %}
+
+{% block title %} AlumClub {% endblock %}
+
+{% block content %}
+	
+	
+        <div class="grid_8 alpha">
+        <h3>How it Works? </h3>
+        
+        	
+<p class="padcontent_l">            	
+<center>
+<img src="{{ MEDIA_URL }}images/frame/steps.png" alt="Steps" id="Steps" />
+      </center>     
+<br /><br />
+<a href="{% url iregister %}" style="float:right" ><img src="{{ MEDIA_URL }}images/frame/signup.png" alt="Sign Up" id="Sign Up" /></a>
+<br clear="all" /><br /><br />
+</p>
+            
+            
+        </div>
+        
+        <div class="grid_4 omega">
+        <p class="padcontent_r">
+            <blockquote>
+            Alumni is one of the most underleveraged capital that could be better utilized for Professional and Personal benefits.<br /><br />
+
+Check out our latest blogs at <a href="http://blog.alumclub.net" >http://blog.alumclub.net</a>
+            </blockquote>
+         </p>   
+            
+            <!--{% include 'testimonials.html' %} -->
+        </div>
+	<div class="clear">&nbsp;</div>
+	
+	
+
+  
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{% block  amedia %}
+   
+    
+    <script type="text/javascript" src="{{ MEDIA_URL }}scripts/connections/connections.js"></script>
+     
+     
+{% endblock %}
+
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+{% load alumclub_tags %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+      
+      <h2>Connections</h2>
+      <div class="tabborder">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{% url pendingconnectionurl %}" class="tablink" >Pending Connections</a>   
+        <a href="{% url connectionhome %}" class="tablink tabcurrent" >Connections</a> 
+      </div>
+      <span id="friendmessage">  </span> 
+      
+           {% for f,conid in friends %}
+       
+       <div id="friendbox{{conid}}" class="connectionbox">
+            
+           <img src="{% thumbnail  f.getImage  40x40 %}" /> 
+              <a href="{{f.get_absolute_url}}" class="ble_hl">   {{f.fullname}}  </a><br/>
+            {% get_short_profile institute f %}
+            <br/>
+                     
+            <span id="friendmessage{{conid}}">  </span> 
+            <p style="float:right"><a href="javascript:void(0)" class="lite_button" onclick="reject({{conid}})">Remove as a Friend</a></p>
+            <br class="clearfloat" />
+            
+       </div>     
+      {% endfor %}
+</div>
+</div>
+{% endblock %}
+
+ 
+
+
+
+

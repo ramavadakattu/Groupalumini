@@ -1,0 +1,24 @@
+Following event has been created on the institute calendar <br/>
+{% load humanize %}
+{% load thumbnail %}
+ <h2> Event Details </h2>
+ 
+ 
+       <h2> what </h2>
+       {{event.what}}        
+       <h2> When </h2>
+        {{event.when|naturalday}}  at {{event.starttime|time:"h:i a"}}
+        <h2> Where </h2>
+        {{event.where}}        
+       <h2> description </h2> 
+         {{event.getNDescription}}
+         
+         <h2> posted by </h2>
+        <img src="{{site}}{% thumbnail  event.user.get_profile.getImage  40x40 %}" />
+                   <a href="{{site}}{{event.user.get_profile.get_absolute_url}}">
+                    
+                    
+                    {{event.user.get_profile.fullname}} </a>
+       
+  
+  <br/> <br/>

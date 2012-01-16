@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+   
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>    
+      
+  Faculty Publish Archives
+  
+  {% include 'publish/faculty_sidebar.html' %}
+    
+     {% load humanize %}     
+    <table>
+    {% for entry in entry_list %}
+    <tr>
+             <td> {{entry.createddate|naturalday}} </td>
+             <td><a href="{% url singleposturl entry.id %}">  {{entry.headline}} </a>
+             <td>  posted by  <a href="{{entry.user.get_profile.get_absolute_url}}">   {{entry.user.get_profile.fullname}}  </a> </td>
+             <td> <a href="{% url editpaperurl  entry.id %}?backto=archive">  Edit  </a> </td>
+             <td> <a href="{% url deletepaperurl  entry.id %}"> Delete </a>   
+             
+             
+             
+             
+             </td>
+     </tr>
+    
+    {% endfor %}
+    </table>
+             
+             
+               {% if page_obj.has_previous %}
+                   <a href="{% url facultyarchiveurl  user.get_profile.fullname|slugify %}?page={{page_obj.previous_page_number}}"> Previous Page  </a>
+         {% endif %}          
+        
+        
+         
+          {% if page_obj.has_next %}
+                  <a href="{% url facultyarchiveurl  user.get_profile.fullname|slugify %}?page={{page_obj.next_page_number}}"> Next Page </a>
+         {% endif %}
+       
+       
+       
+       
+   </div>  
+</div>
+
+{% endblock %}
+
+ 

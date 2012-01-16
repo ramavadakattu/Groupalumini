@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+   
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+      
+   <h2>My Posts</h2>
+   
+   {% include 'publish/publish_sidebar.html' %}
+    
+     {% load humanize %}     <br />
+    <table class="standard"><tr><th align="left">Title</th><th width="150">Posted on</th><th width="150">&nbsp;</th></tr>
+    {% for entry in entry_list %}
+    
+    <tr>
+             <td><a href="{% url singleposturl entry.id %}">  {{entry.headline}} </a>  </td>
+             <td align="center">{{entry.createddate|naturalday}}</td>
+             <td align="center">
+             {% ifequal  entry.user.id user.id  %}
+               <a href="{% url editentryurl entry.id %}?backto=myposts">Edit</a>
+             
+               &nbsp;&nbsp;/&nbsp;
+               
+               
+              <a href="{% url deleteentryurl entry.id %}">Delete</a>
+             {% endifequal %}  
+             </td>
+     </tr>
+    
+    {% endfor %}
+    </table>
+       
+       
+       
+         {% if page_obj.has_previous %}
+                   <a href="{% url mypostsurl %}?page={{page_obj.previous_page_number}}"> Previous Page  </a>
+         {% endif %}          
+        
+        
+         
+          {% if page_obj.has_next %}
+                  <a href="{% url mypostsurl %}?page={{page_obj.next_page_number}}"> Next Page </a>
+         {% endif %}
+                 
+       
+       
+    </div>
+    </div> 
+
+
+{% endblock %}
+
+ 

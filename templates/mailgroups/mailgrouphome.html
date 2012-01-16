@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+
+    <h2> Mail Groups </h2>
+    
+    <div  class="action_button"><a href="{% url createmailgroupurl %}">Create Group</a></div>
+ 
+     <table class="standard" width="70%"><tr><th align="left" width="70%">Title</th><th width="30%" align="center">&nbsp;</th></tr>
+    {% for mailgroup in mailgroups %}
+       <tr>
+           <td>
+           		<span class="highlight">{{mailgroup.name}}</span>
+           </td>
+           <td align="center">
+               {% if mailgroup.entirealumini %}
+               
+              Disabled!
+              
+              {% else %}
+               <a href="{% url editmailgroupurl mailgroup.id %}">Edit</a>&nbsp;&nbsp;/&nbsp;
+               <a href="{% url deletemailgroupurl mailgroup.id %}">Delete</a>
+               
+               {% endif %}
+           </td>
+       </tr>
+       
+    
+    {% endfor %}
+    </table>
+    </div>
+    </div>
+
+{% endblock %}

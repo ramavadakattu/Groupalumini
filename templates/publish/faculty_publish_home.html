@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+{% block amedia %}
+
+<link rel="alternate" type="application/rss+xml" title="{{faculty.get_profile.fullname}} blog feed"  href="/blog/feeds/latest/{{institute.subdomain}}/{{faculty.get_profile.fullname|slugify}}/">
+
+
+{% endblock %}
+
+
+
+{% block content %}
+
+   
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+            
+         {% load humanize %}
+     
+      {% include 'publish/faculty_sidebar.html' %} 
+     <table>
+          {% for entry in entry_list %}
+          <tr>
+            <td> 
+             <h2>  <a href="{% url singlepaperurl entry.id %}">  {{entry.headline}}  </a>  </h2>
+           <i>  posted on {{entry.createddate|naturalday}}  by <a href="{{entry.user.get_profile.get_absolute_url}}">  {{entry.user.get_profile.fullname}} </a> &nbsp; &nbsp;  <a href="{% url singleposturl entry.id %}">  {{entry.comment_set.all.count}} comments </a> </i>
+             
+             
+             {{entry.content|safe}}
+          </td>
+            </tr>
+          
+          {% endfor %}
+         </table>
+          
+          
+           {% if page_obj.has_previous %}
+                   <a href="{% url facultyresearchurl  faculty.get_profile.fullname|slugify %}?page={{page_obj.previous_page_number}}"> Previous Page  </a>
+         {% endif %}          
+        
+        
+         
+          {% if page_obj.has_next %}
+                  <a href="{% url facultyresearchurl  faculty.get_profile.fullname|slugify %}?page={{page_obj.next_page_number}}"> Next Page </a>
+         {% endif %}
+                 
+         
+          
+          
+   </div>
+   </div>    
+       
+       
+       
+       
+     
+
+
+{% endblock %}
+
+ 

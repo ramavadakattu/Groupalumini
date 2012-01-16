@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{% block  amedia %}
+
+        <script type="text/javascript" src="{{ MEDIA_URL }}scripts/mailgroups/mailgroups.js"></script>
+        
+    <script type="text/javascript" charset="utf-8">     
+            var map =[ 
+       {% for department in institute.department_set.all %}
+             [{{department.id}}              
+                {% for course in department.course_set.all %}
+                         ,{{course.id}},"{{course.name}}" 
+                {% endfor %}
+             ],  
+       {% endfor %}
+       ];
+      
+         var industrymap =[ 
+          {% for industry in industries %}
+                [{{industry.id}}               
+                   {% for market in industry.market_set.all %}
+                            ,{{market.id}},"{{market.name}}" 
+                   {% endfor %}
+                ],  
+          {% endfor %}
+          ];
+         
+         
+         
+         
+          window.onload = function() {    
+        
+        $("#id_department").change(selectedDepartment);
+        $("#id_industry").change(selectedIndustry);
+        
+     
+   }
+   
+   
+   
+   function selectedDepartment()
+   {
+    
+            selectedindex =  $("#id_department").val();   
+            $.each(map,function() {
+            
+           
+            if ( this[0] == selectedindex )
+            {         
+                 $('#id_program').find('option').remove();
+                courselength = this.length -1;
+                index = 1;
+                $("#id_program").append($('<option></option>').val("").html("-----------")); 
+                while ( index <= courselength)
+                {
+                  value = this[index];
+                  text = this[index+1];
+                  index = index +2;          
+                  $("#id_program").append($('<option></option>').val(value).html(text));                                  
+                }
+               
+            }    
+           
+          })
+           
+           
+   }
+   
+   
+   function selectedIndustry()
+   {    
+         selectedindex =  $("#id_industry").val();
+         
+         $.each(industrymap,function() {
+         
+        
+         if ( this[0] == selectedindex )
+         {         
+              $('#id_market').find('option').remove();
+             marketlength = this.length -1;
+             index = 1;
+             $("#id_market").append($('<option></option>').val("").html("-----------")); 
+             while ( index <= marketlength)
+             {
+               value = this[index];
+               text = this[index+1];
+               index = index +2;          
+               $("#id_market").append($('<option></option>').val(value).html(text));                                  
+             }
+           
+         }    
+        
+       })
+           
+           
+   }
+   
+     
+   
+    </script>   
+        
+{% endblock %}
+
+{% block content %}
+
+
+
+{% load thumbnail %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+     
+     {% if editmode %}
+          <h2> Edit Mail Group  </h2>
+     {% else %}
+         <h2> Create Mail Group  </h2>
+     {% endif %}
+    
+    
+    <form action="." method="POST">
+    
+      <span class="error">  {{form.non_field_errors}}</span>
+     
+     
+     Mail Group Name : {{form.name}}
+                         <span class="error">  {{form.name.errors}}</span>
+                          <br/>
+                        <br/>
+     
+     <p class="smrad">
+      {{form.alumini}} <strong>Alumini</strong>
+      </p>
+      <span class="error">  {{form.alumini.errors}}</span>
+     
+     <div id="studentcbox"  class="hide">
+         Department  <br/>
+         {{form.department}}
+           <span class="error"> {{form.department.errors}} </span>        
+         <span class="small"> if null it will be sent to all departments </span>
+         <br/>Program  <br/>
+        {{form.program}}
+         <span class="error">  {{form.program.errors}}</span>
+        <span class="small"> if null it will be sent to all prgrams </span>
+          <br/> Passout <br/>        
+        {{form.passoutyear}}
+         <span class="error">  {{form.passoutyear.errors}}</span>        
+        
+        <span class="small"> if null it will be sent to all batches </span>
+        <br/>Country  <br/>
+        {{form.country}}
+        {{form.country.errors}}
+        <span class="small"> if null it will be sent to all countries </span>
+        
+         <br/> Industry <br/>
+        {{form.industry}}
+          <span class="error"> {{form.industry.errors}}</span>
+        <span class="small"> if null it will be sent to all industries </span>
+         <br/> Market <br/>
+        {{form.market}}
+         <span class="error">  {{form.market.errors}}</span>
+        <span class="small"> if null it will be sent to all markets </span>
+        <br /><br />
+     </div>
+      
+      <p class="smrad">
+    {{form.faculty}} <strong>Faculty </strong>
+    </p> 
+       <span class="error"> {{form.faculty.errors}}</span>
+     
+     <div id="facultycbox" class="hide">
+        Department  <br/>
+         {{form.fdepartment}}
+           <span class="error"> {{form.fdepartment.errors}}</span>
+         <span class="small"> if null it will be sent to all departments </span>
+         <br/>Country  <br/>
+        {{form.fcountry}}
+          <span class="error"> {{form.fcountry.errors}}</span>
+        <span class="small"> if null it will be sent to all countries </span>
+        
+        
+         
+     </div>
+     
+     <br/>
+     <br/>
+     <input type="submit" class="form_button"           
+            {% if editmode %}
+            value="Edit Group"            
+            {% else %}
+            value="Create Group"
+            {% endif %}
+            />
+            
+     
+     
+    </form> 
+     
+</div>
+
+
+{% endblock %}

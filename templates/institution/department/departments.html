@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Departments Add Department
+
+
+{% endblock %}
+
+
+
+{% block content %}
+  
+  {% load thumbnail %}
+  
+ <div class="grid_3 alpha" >
+	{% include 'institution/account_side_bar.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div> 
+  <h2> Departments </h2>
+  
+  {% if departments %}
+   <table class="standard"><tr><th align="left">Title</th><th width="150">Established</th><th width="150">&nbsp;</th></tr>
+        {% for department in departments %}
+           <tr><td>{{department.name}}</td>
+           <td>
+           {% if department.established %}
+                {{department.established}}
+           {% endif %}
+           </td><td align="center">
+           <a href="{% url editdepartmenturl department.id %}">Edit</a>&nbsp;/&nbsp;
+           <a href="{% url deletedepartmenturl department.id %}">Delete</a>
+           </td>
+           </tr>
+           
+        {% endfor %}
+        </table>
+   {% else %}
+         As of now you have not configured the departments. Start configuring now!  
+   
+   {% endif %}
+   
+   <br/> <br/>
+   <div class="action_button"><a href="{% url adddepartmenturl %}" style="font-size:14px">Add Department</a></div>
+   </div>
+   </div>
+</div>
+{% endblock %}
+
+ 
+
+
+
+

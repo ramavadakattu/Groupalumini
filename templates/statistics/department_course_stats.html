@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+{% block  amedia %}
+   
+      
+{% load comparison %}
+
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1', {'packages':['piechart']});
+      
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+      
+      // Callback that creates and populates a data table, 
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+      // Create our data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Course');
+        data.addColumn('number', 'Total number of people');
+        data.addRows(
+                    [                     
+             {% for cstat in coursestats %}
+                        {% if_less_or_equal forloop.counter 5 %}
+                       ["{{cstat.course__name}}",{{cstat.course_count}}],
+                       {% endif_less_or_equal %}
+             {% endfor %}
+          
+        ]);
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chartbox'));
+        chart.draw(data, {width: 600, height: 240, is3D: true, title: 'Course distribution',legendFontSize:12});
+      }
+    </script>
+   
+    
+    
+    
+     
+     
+{% endblock %}
+
+
+{% block content %}
+
+<div class="grid_3 alpha" id="sidebar">
+	{% include 'mainleftbox.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div>
+
+<div class="breadcrum"><a href="{% url displaystathomeurl %}"> Statistics Home </a>   >>    <a href="{% url departmentstatsurl %}"> Department stats  </a></div>
+
+<h2> Course wide statistics : <span class="highlight">{{department.name}} </span> </h2>
+
+  
+{% for cstat in coursestats  %}
+  
+      <a href="{% url degreestatsurl department.id cstat.course__id %}"> {{cstat.course__name}} ({{cstat.course_count}}) </a>
+     
+      <br/>
+ 
+{% endfor %}
+  
+
+
+<div id="chartbox">
+      
+      
+</div>      
+
+</div>
+</div>
+
+{% endblock %}
+
+
+
+

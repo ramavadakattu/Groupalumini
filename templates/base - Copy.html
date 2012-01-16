@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>{% block title %}{% endblock %}</title>
+
+ 
+ 
+ <script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery13.js"></script>
+  <script type="text/javascript" src="{{ MEDIA_URL }}scripts/alumutils.js"></script> 
+  <link media="screen" href="{{ MEDIA_URL }}css/typography.css" type="text/css" rel="stylesheet"/>
+ <link media="screen" href="{{ MEDIA_URL }}css/sample.css" type="text/css" rel="stylesheet"/>
+ <!--  <link media="screen" href="{{ MEDIA_URL }}css/mainboxleft.css" type="text/css" rel="stylesheet"/>  -->
+
+
+<script type="text/javascript" src="{{ MEDIA_URL }}scripts/jquery.bgpos.js"></script>
+
+<script language="JavaScript">
+var randnum = Math.random();
+var inum = 5;
+var rand1 = Math.round(randnum * (inum-1)) + 1;
+images = new Array
+images[1] = "bodybg_bl.png"
+images[2] = "bodybg_vi.png"
+images[3] = "bodybg_pi.png"
+images[4] = "bodybg_gr.png"
+images[5] = "bodybg_te.png"
+var image = images[rand1]
+</script>
+
+ 
+ {% block  amedia %}   {% endblock %}
+ 
+</head>
+<body>
+<script language="JavaScript">
+<!-- Activate cloaking device
+document.write('<body background="{{ MEDIA_URL }}images/frame/' + image + '" >')
+// Deactivate cloaking device -->
+</script>
+<!--<body background="{{ MEDIA_URL }}images/frame/bodybg_gr.jpg"> -->
+    <div id="container">
+    <!-- content goes here -->
+    {% include 'institution/topbox.html' %}
+     
+   
+    <div id="fullContent">
+    {% block content %}
+         
+      
+      
+    {% endblock %}
+   
+</div>
+
+
+ <!-- footer content -->       
+    {% block footer %}
+        
+    
+    
+    {% endblock %}
+   
+   
+<!-- block extrascripts -->   
+    {% block extrascripts %} 
+    
+    
+    {% endblock %}
+    
+    
+    </div>
+    </div><!-- end container -->  
+    {% include 'footer.html' %}
+    
+    
+<script src="http://static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">clicky.init(148155);</script>
+
+    
+    
+    
+</body>
+</html>

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Welcome {{institute.name}}  Alumni Network
+
+
+{% endblock %}
+
+
+
+{% block content %}
+ {% load thumbnail %} 
+<div class="grid_3 alpha" >
+	{% include 'institution/account_side_bar.html' %}
+</div>
+  
+<div class="grid_9 omega" >
+	<div id="mainContent">
+     <div class="errorbox">
+        {% include 'message_frag.html' %}    
+     </div> 
+ 
+  <div class="submenu">
+      <a href="{% url approvememberurl  'student' %}" class="large_link">Approve Students</a>&nbsp;/&nbsp;
+     <a href="{% url approvememberurl  'faculty' %}" class="large_link">Approve Faculty</a>
+ 
+  </div>
+    
+   </div>
+   </div>
+  </div>
+  
+{% endblock %}
+
+ 
+
+
+
+
